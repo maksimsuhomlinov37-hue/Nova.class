@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaClass</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--primary:#2563EB;--primary-dark:#1D4ED8;--primary-light:#3B82F6;--primary-lighter:#60A5FA;--primary-bg:#DBEAFE;--primary-surface:#EFF6FF;--page-bg:#F5F8FF;--card-bg:#FFFFFF;--text-primary:#111827;--text-secondary:#6B7280;--text-muted:#9CA3AF;--border:rgba(37,99,235,.08);--border-hover:rgba(37,99,235,.16);--shadow-sm:0 2px 12px rgba(37,99,235,.05);--shadow:0 12px 40px rgba(37,99,235,.08);--shadow-lg:0 24px 60px rgba(37,99,235,.12);--radius-btn:16px;--radius-card:22px;--sidebar-closed:78px;--sidebar-open:270px;--topbar-h:72px;--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--input-bg:#F9FAFB;--danger:#EF4444;--danger-bg:#FEF2F2;--success:#059669;--warning:#F59E0B}
+[data-theme="dark"]{--page-bg:#0F172A;--card-bg:#1E293B;--text-primary:#F1F5F9;--text-secondary:#94A3B8;--text-muted:#64748B;--border:rgba(148,163,184,.1);--border-hover:rgba(148,163,184,.2);--shadow-sm:0 2px 12px rgba(0,0,0,.2);--shadow:0 12px 40px rgba(0,0,0,.3);--shadow-lg:0 24px 60px rgba(0,0,0,.4);--primary-surface:rgba(37,99,235,.15);--primary-bg:rgba(37,99,235,.2);--input-bg:#334155;--danger-bg:rgba(239,68,68,.15)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--page-bg);color:var(--text-primary);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .5s ease,color .5s ease}
+a{text-decoration:none;color:inherit}
+button{border:none;background:none;cursor:pointer;font-family:var(--font);color:inherit}
+input{font-family:var(--font)}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(37,99,235,.12);border-radius:3px}
+.login-screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--page-bg);transition:opacity .6s ease,visibility .6s ease}
+.login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.login-bg-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:loginOrb 12s ease-in-out infinite}
+.login-bg-orb.orb1{width:500px;height:500px;background:var(--primary);top:-120px;right:-100px}
+.login-bg-orb.orb2{width:400px;height:400px;background:var(--primary-light);bottom:-80px;left:-60px;animation-delay:-4s}
+.login-bg-orb.orb3{width:300px;height:300px;background:var(--primary-lighter);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-8s}
+@keyframes loginOrb{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.05)}50%{transform:translate(-20px,30px) scale(.95)}75%{transform:translate(20px,20px) scale(1.03)}}
+.login-card{position:relative;z-index:2;width:100%;max-width:400px;padding:48px 36px;background:var(--card-bg);border-radius:28px;border:1px solid var(--border);box-shadow:var(--shadow-lg);animation:loginCardIn .7s cubic-bezier(.4,0,.2,1) both}
+@keyframes loginCardIn{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.login-logo-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:36px}
+.login-logo{width:64px;height:64px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:20px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:26px;box-shadow:0 8px 30px rgba(37,99,235,.3);margin-bottom:16px;animation:logoPulse 3s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{transform:scale(1);box-shadow:0 8px 30px rgba(37,99,235,.3)}50%{transform:scale(1.05);box-shadow:0 12px 40px rgba(37,99,235,.4)}}
+.login-brand{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.login-subtitle{font-size:13px;color:var(--text-secondary);margin-top:4px;font-weight:500}
+.login-form{display:flex;flex-direction:column;gap:16px}
+.input-group{position:relative}
+.input-group i.input-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--text-muted);transition:color .3s ease;pointer-events:none;z-index:2}
+.input-group input{width:100%;padding:14px 16px 14px 46px;border-radius:16px;border:1.5px solid var(--border);background:var(--input-bg);color:var(--text-primary);font-size:14px;font-weight:500;outline:none;transition:all .3s ease}
+.input-group input::placeholder{color:var(--text-muted);font-weight:400}
+.input-group input:focus{border-color:var(--primary);background:var(--card-bg);box-shadow:0 0 0 4px rgba(37,99,235,.1)}
+.input-group input:focus~i.input-icon{color:var(--primary)}
+.input-group input.error{border-color:var(--danger);box-shadow:0 0 0 4px rgba(239,68,68,.1);animation:shake .4s ease}
+.input-group input.error~i.input-icon{color:var(--danger)}
+.input-error-msg{font-size:11px;color:var(--danger);font-weight:600;margin-top:6px;padding-left:4px;opacity:0;transform:translateY(-4px);transition:all .25s ease;position:absolute;bottom:-20px;left:0;white-space:nowrap}
+.input-error-msg.show{opacity:1;transform:translateY(0)}
+.login-options{display:flex;align-items:center;justify-content:flex-start}
+.remember-me{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-secondary);transition:color .25s ease;user-select:none}
+.remember-me:hover{color:var(--primary)}
+.remember-me .checkmark{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .3s ease;flex-shrink:0;font-size:10px;color:transparent}
+.remember-me.checked .checkmark{background:var(--primary);border-color:var(--primary);color:#fff}
+.login-btn{width:100%;padding:15px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;font-size:15px;font-weight:700;box-shadow:0 6px 24px rgba(37,99,235,.3);transition:all .35s cubic-bezier(.4,0,.2,1);margin-top:8px;position:relative;overflow:hidden}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(37,99,235,.4)}
+.login-btn:active{transform:translateY(0) scale(.98)}
+.login-btn.loading{pointer-events:none;opacity:.85}
+.login-btn .btn-text{transition:opacity .3s ease}
+.login-btn.loading .btn-text{opacity:0}
+.login-btn .btn-spinner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:22px;height:22px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;opacity:0;animation:none}
+.login-btn.loading .btn-spinner{opacity:1;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.app-wrapper{opacity:0;visibility:hidden;transition:opacity .6s ease .2s,visibility .6s ease .2s}
+.app-wrapper.show{opacity:1;visibility:visible}
+.sidebar{position:fixed;left:0;top:0;width:var(--sidebar-closed);height:100vh;background:var(--card-bg);border-right:1px solid var(--border);z-index:100;transition:width .5s cubic-bezier(.4,0,.2,1),background .5s ease;display:flex;flex-direction:column;overflow:hidden}
+.sidebar.open{width:var(--sidebar-open)}
+.sidebar-logo{height:var(--topbar-h);display:flex;align-items:center;padding:0 20px;border-bottom:1px solid var(--border);flex-shrink:0;gap:12px;cursor:pointer;transition:all .3s ease}
+.sidebar-logo:hover{background:var(--primary-surface)}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;flex-shrink:0;box-shadow:0 4px 14px rgba(37,99,235,.25);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.sidebar-logo:hover .logo-icon{transform:scale(1.08) rotate(-3deg)}
+.logo-text{font-weight:700;font-size:18px;white-space:nowrap;opacity:0;transition:opacity .4s ease .15s}
+.sidebar.open .logo-text{opacity:1}
+.sidebar-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:13px 14px;border-radius:var(--radius-btn);transition:all .35s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;white-space:nowrap;overflow:hidden}
+.nav-item i{font-size:18px;width:24px;text-align:center;flex-shrink:0;color:var(--text-secondary);transition:all .35s ease}
+.nav-item span{font-size:14px;font-weight:500;opacity:0;transition:opacity .3s ease .12s;color:var(--text-secondary)}
+.sidebar.open .nav-item span{opacity:1}
+.nav-item:hover{background:var(--primary-surface)}
+.nav-item:hover i{color:var(--primary);transform:scale(1.1)}
+.nav-item:hover span{color:var(--primary)}
+.nav-item.active{background:var(--primary);box-shadow:0 6px 24px rgba(37,99,235,.35)}
+.nav-item.active i{color:#fff}
+.nav-item.active span{color:#fff;opacity:1}
+.main-wrapper{margin-left:var(--sidebar-closed);min-height:100vh;transition:margin-left .5s cubic-bezier(.4,0,.2,1)}
+.main-wrapper.shifted{margin-left:var(--sidebar-open)}
+.topbar{height:var(--topbar-h);background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;transition:background .5s ease,border-color .5s ease}
+[data-theme="dark"] .topbar{background:rgba(30,41,59,.85)}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.topbar-right{display:flex;align-items:center;gap:10px;position:relative}
+.topbar-time{font-size:14px;font-weight:500;color:var(--text-secondary)}
+.lang-switcher{display:flex;border-radius:12px;border:1px solid var(--border);overflow:hidden}
+.lang-btn{padding:7px 14px;font-size:12px;font-weight:700;transition:all .3s ease;color:var(--text-secondary);letter-spacing:.5px}
+.lang-btn:hover{background:var(--primary-surface);color:var(--primary)}
+.lang-btn.active{background:var(--primary);color:#fff}
+.btn-profile{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:14px;transition:all .35s cubic-bezier(.4,0,.2,1);border:1px solid var(--border)}
+.btn-profile:hover{background:var(--primary-surface);border-color:var(--border-hover);transform:translateY(-1px)}
+.avatar{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;transition:transform .3s ease}
+.btn-profile:hover .avatar{transform:scale(1.06)}
+.profile-name{font-size:13px;font-weight:600}
+.profile-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:240px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-btn);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);transition:all .35s cubic-bezier(.4,0,.2,1);z-index:60;overflow:hidden}
+.profile-dropdown.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.profile-dropdown-header{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.profile-dropdown-avatar{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0}
+.profile-dropdown-info{flex:1;min-width:0}
+.profile-dropdown-info .name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-dropdown-info .role{font-size:11px;color:var(--text-secondary);margin-top:1px}
+.profile-dropdown-item{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .25s ease;cursor:pointer}
+.profile-dropdown-item:hover{background:var(--primary-surface);color:var(--primary)}
+.profile-dropdown-item i{width:18px;text-align:center;font-size:14px}
+.profile-dropdown-item.danger{color:var(--danger)}
+.profile-dropdown-item.danger:hover{background:var(--danger-bg);color:var(--danger)}
+.content{padding:28px;min-height:calc(100vh - var(--topbar-h))}
+.section{display:none;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s cubic-bezier(.4,0,.2,1)}
+.section.visible{display:block}
+.section.active{opacity:1;transform:translateY(0)}
+.hero-banner{border-radius:var(--radius-card);padding:52px 48px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 45%,var(--primary-light) 100%);color:#fff;margin-bottom:28px;min-height:160px;display:flex;align-items:center}
+.hero-banner::before{content:'';position:absolute;top:-80px;right:-60px;width:350px;height:350px;background:rgba(255,255,255,.06);border-radius:50%;animation:heroOrb 10s ease-in-out infinite}
+.hero-banner::after{content:'';position:absolute;bottom:-100px;right:100px;width:250px;height:250px;background:rgba(255,255,255,.04);border-radius:50%;animation:heroOrb 7s ease-in-out infinite reverse}
+@keyframes heroOrb{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.08)}}
+.hero-content{position:relative;z-index:2}
+.hero-content h1{font-size:34px;font-weight:800;letter-spacing:-.5px}
+.hero-welcome-name{display:block;font-size:18px;font-weight:500;opacity:.85;margin-top:6px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.card{background:var(--card-bg);border-radius:var(--radius-card);border:1px solid var(--border);box-shadow:var(--shadow-sm);padding:24px;transition:all .4s cubic-bezier(.4,0,.2,1);animation:cardIn .55s cubic-bezier(.4,0,.2,1) both}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--border-hover)}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700}
+.card-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:transform .3s ease}
+.card:hover .card-icon{transform:scale(1.1) rotate(-5deg)}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 20px;text-align:center}
+.empty-icon{width:64px;height:64px;border-radius:20px;background:var(--primary-surface);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--primary-lighter);margin-bottom:14px;animation:floatIcon 4s ease-in-out infinite}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.empty-text{font-size:14px;color:var(--text-muted);font-weight:500}
+.section-title{font-size:26px;font-weight:800;letter-spacing:-.3px}
+.section-subtitle{font-size:14px;color:var(--text-secondary);margin-top:4px;margin-bottom:24px}
+.days-tabs{display:flex;gap:8px;margin-bottom:24px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.days-tabs::-webkit-scrollbar{display:none}
+.day-tab{padding:10px 22px;border-radius:var(--radius-btn);font-size:14px;font-weight:600;color:var(--text-secondary);background:var(--card-bg);border:1px solid var(--border);transition:all .35s cubic-bezier(.4,0,.2,1);white-space:nowrap;flex-shrink:0}
+.day-tab:hover{background:var(--primary-surface);color:var(--primary);border-color:var(--primary-bg);transform:translateY(-1px)}
+.day-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 6px 20px rgba(37,99,235,.3);transform:translateY(-1px)}
+.grades-overview{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-card);padding:40px;box-shadow:var(--shadow-sm);margin-bottom:28px;text-align:center;animation:cardIn .55s cubic-bezier(.4,0,.2,1) both}
+.grades-avg-big{font-size:72px;font-weight:900;color:var(--text-muted);line-height:1}
+.grades-avg-label{font-size:15px;color:var(--text-secondary);margin-top:8px;font-weight:500}
+.grades-empty-row{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px;font-weight:500}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(17,24,39,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:90;opacity:0;pointer-events:none;transition:opacity .4s ease}
+.sidebar-overlay.active{opacity:1;pointer-events:all}
+.modal-overlay{position:fixed;inset:0;background:rgba(17,24,39,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:200;opacity:0;visibility:hidden;transition:all .4s ease;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal-card{background:var(--card-bg);border-radius:var(--radius-card);width:100%;max-width:460px;box-shadow:var(--shadow-lg);transform:translateY(20px) scale(.96);transition:all .45s cubic-bezier(.4,0,.2,1);overflow:hidden;max-height:80vh;overflow-y:auto}
+.modal-overlay.open .modal-card{transform:translateY(0) scale(1)}
+.modal-header{padding:24px 28px 0;display:flex;align-items:flex-start;justify-content:space-between}
+.modal-title{font-size:20px;font-weight:800}
+.modal-close{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .25s ease;font-size:16px}
+.modal-close:hover{background:var(--input-bg);color:var(--text-primary);transform:rotate(90deg)}
+.modal-body{padding:20px 28px 28px}
+.settings-group{margin-bottom:22px}
+.settings-group:last-child{margin-bottom:0}
+.settings-group-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--input-bg);border-radius:14px;margin-bottom:8px;transition:all .3s ease}
+.settings-row:last-child{margin-bottom:0}
+.settings-row:hover{background:var(--primary-surface)}
+.settings-row-label{font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px}
+.settings-row-label i{color:var(--primary-lighter);font-size:15px;width:20px;text-align:center}
+.settings-row-value{font-size:12px;color:var(--text-muted);font-weight:500}
+.toggle{width:48px;height:28px;border-radius:14px;background:#D1D5DB;position:relative;cursor:pointer;transition:background .35s ease;flex-shrink:0}
+.toggle.on{background:var(--primary)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.toggle.on::after{transform:translateX(20px)}
+.settings-select{padding:6px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-primary);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all .25s ease;outline:none}
+.settings-select:hover{border-color:var(--primary-bg)}
+.settings-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.faq-item{border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;transition:all .3s ease}
+.faq-item:last-child{margin-bottom:0}
+.faq-item:hover{border-color:var(--border-hover)}
+.faq-question{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;font-size:13px;font-weight:600;transition:all .25s ease}
+.faq-question:hover{color:var(--primary)}
+.faq-question i{font-size:12px;color:var(--text-muted);transition:transform .35s ease;flex-shrink:0}
+.faq-item.open .faq-question i{transform:rotate(180deg);color:var(--primary)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.faq-item.open .faq-answer{max-height:200px}
+.faq-answer-inner{padding:0 16px 14px;font-size:13px;color:var(--text-secondary);line-height:1.7}
+.logout-body{text-align:center;padding:8px 0}
+.logout-icon{width:72px;height:72px;border-radius:22px;background:var(--danger-bg);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--danger);margin:0 auto 18px;animation:floatIcon 3s ease-in-out infinite}
+.logout-text{font-size:15px;color:var(--text-secondary);line-height:1.6;margin-bottom:24px}
+.logout-btns{display:flex;gap:10px;justify-content:center}
+.btn-action{padding:11px 28px;border-radius:14px;font-size:14px;font-weight:600;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.btn-action:hover{transform:translateY(-2px)}
+.btn-action:active{transform:translateY(0) scale(.97)}
+.btn-cancel{background:var(--input-bg);color:var(--text-secondary);border:1px solid var(--border)}
+.btn-cancel:hover{background:var(--primary-surface);color:var(--primary);border-color:var(--primary-bg)}
+.btn-danger{background:var(--danger);color:#fff;box-shadow:0 4px 16px rgba(239,68,68,.3)}
+.btn-danger:hover{box-shadow:0 6px 24px rgba(239,68,68,.4);background:#DC2626}
+.logout-screen{position:fixed;inset:0;background:var(--page-bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .6s ease}
+.logout-screen.show{opacity:1;visibility:visible}
+.logout-screen-logo{width:72px;height:72px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:22px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:28px;box-shadow:0 8px 30px rgba(37,99,235,.3);margin-bottom:20px;animation:floatIcon 4s ease-in-out infinite}
+.logout-screen h2{font-size:22px;font-weight:800;margin-bottom:8px}
+.logout-screen p{font-size:14px;color:var(--text-secondary);margin-bottom:28px}
+.btn-login-back{padding:13px 36px;border-radius:16px;background:var(--primary);color:#fff;font-size:15px;font-weight:600;box-shadow:0 6px 20px rgba(37,99,235,.3);transition:all .35s cubic-bezier(.4,0,.2,1)}
+.btn-login-back:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,99,235,.4)}
+.btn-login-back:active{transform:translateY(0) scale(.97)}
+.toast-container{position:fixed;bottom:28px;right:28px;z-index:1100;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-btn);padding:14px 20px;box-shadow:var(--shadow-lg);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;animation:toastIn .4s cubic-bezier(.4,0,.2,1) both;min-width:250px}
+.toast.out{animation:toastOut .35s ease both}
+@keyframes toastIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(8px) scale(.96)}}
+.toast-icon{font-size:16px}
+.toast-success .toast-icon{color:var(--success)}
+.toast-info .toast-icon{color:var(--primary)}
+.toast-error .toast-icon{color:var(--danger)}
+@media(max-width:1024px){.cards-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}.hero-content h1{font-size:28px}}
+@media(max-width:768px){.sidebar{width:var(--sidebar-open);transform:translateX(-100%);transition:transform .45s cubic-bezier(.4,0,.2,1)}.sidebar.open{transform:translateX(0)}.sidebar .logo-text,.sidebar .nav-item span{opacity:1}.main-wrapper{margin-left:0!important}.content{padding:20px 16px}.hero-banner{padding:36px 24px}.hero-content h1{font-size:24px}.cards-grid{grid-template-columns:1fr}.topbar{padding:0 16px}.day-tab{padding:9px 16px;font-size:13px}.grades-avg-big{font-size:56px}.grades-overview{padding:28px 20px}.profile-name{display:none}.modal-card{max-width:calc(100vw - 32px)}.logout-btns{flex-direction:column}.login-card{margin:0 16px;padding:36px 24px}.login-bg-orb.orb1{width:300px;height:300px}.login-bg-orb.orb2{width:250px;height:250px}.login-bg-orb.orb3{width:200px;height:200px}}
+@media(max-width:480px){.lang-switcher{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+    <div class="login-bg-orb orb1"></div>
+    <div class="login-bg-orb orb2"></div>
+    <div class="login-bg-orb orb3"></div>
+    <div class="login-card">
+        <div class="login-logo-wrap">
+            <div class="login-logo">N</div>
+            <div class="login-brand">NovaClass</div>
+            <div class="login-subtitle" data-i18n="login_subtitle">Войдите в свой аккаунт</div>
+        </div>
+        <form class="login-form" id="loginForm" autocomplete="off">
+            <div class="input-group" style="margin-bottom:24px">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="text" id="loginName" placeholder="Логин" autocomplete="off" spellcheck="false">
+                <div class="input-error-msg" id="nameError"></div>
+            </div>
+            <div class="input-group" style="margin-bottom:20px">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="loginPass" placeholder="Пароль" autocomplete="off">
+                <div class="input-error-msg" id="passError"></div>
+            </div>
+            <div class="login-options">
+                <div class="remember-me" id="rememberMe" tabindex="0" role="checkbox" aria-checked="false">
+                    <div class="checkmark"><i class="fa-solid fa-check"></i></div>
+                    <span data-i18n="login_remember">Запомнить меня</span>
+                </div>
+            </div>
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="btn-text" data-i18n="login_btn">Войти</span>
+                <div class="btn-spinner"></div>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="app-wrapper" id="appWrapper">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Навигация">
+        <div class="sidebar-logo" id="sidebarToggle" tabindex="0" role="button" aria-label="Меню">
+            <div class="logo-icon">N</div>
+            <div class="logo-text">NovaClass</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item active" data-section="home" tabindex="0" role="button"><i class="fa-solid fa-house"></i><span data-i18n="nav_home">Главная</span></div>
+            <div class="nav-item" data-section="schedule" tabindex="0" role="button"><i class="fa-solid fa-calendar-days"></i><span data-i18n="nav_schedule">Расписание</span></div>
+            <div class="nav-item" data-section="homework" tabindex="0" role="button"><i class="fa-solid fa-pen-to-square"></i><span data-i18n="nav_hw">Домашние задания</span></div>
+            <div class="nav-item" data-section="diary" tabindex="0" role="button"><i class="fa-solid fa-book-open"></i><span data-i18n="nav_diary">Дневник</span></div>
+            <div class="nav-item" data-section="grades" tabindex="0" role="button"><i class="fa-solid fa-chart-simple"></i><span data-i18n="nav_grades">Оценки</span></div>
+        </nav>
+    </aside>
+    <div class="main-wrapper" id="mainWrapper">
+        <header class="topbar">
+            <div class="topbar-left"><span class="topbar-time" id="topbarTime"></span></div>
+            <div class="topbar-right">
+                <div class="lang-switcher" id="langSwitcher">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="kz">KZ</button>
+                </div>
+                <button class="btn-profile" id="btnProfile" aria-label="Профиль">
+                    <div class="avatar" id="topbarAvatar"><i class="fa-solid fa-user" style="font-size:14px"></i></div>
+                    <span class="profile-name" id="topbarName" data-i18n="profile_name">Пользователь</span>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <div class="profile-dropdown-avatar" id="ddAvatar"><i class="fa-solid fa-user" style="font-size:15px"></i></div>
+                        <div class="profile-dropdown-info">
+                            <div class="name" id="ddName" data-i18n="profile_name">Пользователь</div>
+                            <div class="role" data-i18n="profile_role">Ученик</div>
+                        </div>
+                    </div>
+                    <div class="profile-dropdown-item" id="pdSettings"><i class="fa-solid fa-gear"></i><span data-i18n="pd_settings">Настройки</span></div>
+                    <div class="profile-dropdown-item" id="pdTheme"><i class="fa-solid fa-moon"></i><span data-i18n="pd_theme">Тема оформления</span></div>
+                    <div class="profile-dropdown-item" id="pdHelp"><i class="fa-solid fa-circle-question"></i><span data-i18n="pd_help">Помощь</span></div>
+                    <div class="profile-dropdown-item danger" id="pdLogout"><i class="fa-solid fa-right-from-bracket"></i><span data-i18n="pd_logout">Выйти</span></div>
+                </div>
+            </div>
+        </header>
+        <main class="content">
+            <section class="section visible active" id="sec-home">
+                <div class="hero-banner"><div class="hero-content"><h1 data-i18n="hero_title">Добро пожаловать!</h1><span class="hero-welcome-name" id="welcomeName"></span></div></div>
+                <div class="cards-grid">
+                    <div class="card" style="animation-delay:.1s">
+                        <div class="card-header"><span class="card-title" data-i18n="events_title">Ближайшие события</span><div class="card-icon" style="background:#EDE9FE;color:#7C3AED"><i class="fa-solid fa-bell"></i></div></div>
+                        <div class="empty-state"><div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div><div class="empty-text" data-i18n="events_empty">Событий пока нет</div></div>
+                    </div>
+                </div>
+            </section>
+            <section class="section" id="sec-schedule">
+                <h1 class="section-title" data-i18n="schedule_title">Расписание</h1>
+                <p class="section-subtitle" id="scheduleDate"></p>
+                <div class="days-tabs" id="daysTabs"></div>
+                <div id="scheduleList"><div class="empty-state" style="padding:60px 20px"><div class="empty-icon"><i class="fa-solid fa-calendar-days"></i></div><div class="empty-text" data-i18n="schedule_empty">Расписание пока не добавлено</div></div></div>
+            </section>
+            <section class="section" id="sec-homework">
+                <h1 class="section-title" data-i18n="hw_title">Домашние задания</h1>
+                <p class="section-subtitle" id="hwDate"></p>
+                <div class="days-tabs" id="hwDaysTabs"></div>
+                <div id="hwScheduleList"><div class="empty-state" style="padding:60px 20px"><div class="empty-icon"><i class="fa-solid fa-pen-to-square"></i></div><div class="empty-text" data-i18n="hw_empty">Заданий пока нет</div></div></div>
+            </section>
+            <section class="section" id="sec-diary">
+                <div class="empty-state" style="padding:80px 20px"><div class="empty-icon" style="width:80px;height:80px;border-radius:24px;font-size:32px"><i class="fa-solid fa-book-open"></i></div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px" data-i18n="diary_title">Дневник</h3><p style="font-size:14px;color:var(--text-secondary);max-width:360px" data-i18n="diary_text">Раздел находится в разработке.</p></div>
+            </section>
+            <section class="section" id="sec-grades">
+                <h1 class="section-title" data-i18n="grades_title">Оценки</h1>
+                <p class="section-subtitle" data-i18n="grades_subtitle">Оценки за поведение</p>
+                <div class="grades-overview"><div class="grades-avg-big">0.0</div><div class="grades-avg-label" data-i18n="grades_avg_label">Средний балл</div></div>
+                <div class="grades-empty-row" data-i18n="grades_empty">Оценок пока нет</div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title" data-i18n="pd_settings">Настройки</div><button class="modal-close" onclick="closeModal('settingsModal')"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="modal-body">
+            <div class="settings-group">
+                <div class="settings-group-title" data-i18n="set_general">Общие</div>
+                <div class="settings-row"><div class="settings-row-label"><i class="fa-solid fa-bell"></i><span data-i18n="set_notif">Уведомления</span></div><div class="toggle on" onclick="toggleSwitch(this,'notif')"></div></div>
+                <div class="settings-row"><div class="settings-row-label"><i class="fa-solid fa-volume-high"></i><span data-i18n="set_sound">Звук</span></div><div class="toggle on" onclick="toggleSwitch(this,'sound')"></div></div>
+            </div>
+            <div class="settings-group">
+                <div class="settings-group-title" data-i18n="set_display">Отображение</div>
+                <div class="settings-row"><div class="settings-row-label"><i class="fa-solid fa-text-height"></i><span data-i18n="set_font">Размер шрифта</span></div><select class="settings-select" onchange="changeFontSize(this.value)"><option value="14" data-i18n="set_small">Мелкий</option><option value="16" selected data-i18n="set_medium">Средний</option><option value="18" data-i18n="set_large">Крупный</option></select></div>
+                <div class="settings-row"><div class="settings-row-label"><i class="fa-solid fa-table-columns"></i><span data-i18n="set_compact">Компактный режим</span></div><div class="toggle" onclick="toggleSwitch(this,'compact')"></div></div>
+            </div>
+            <div class="settings-group">
+                <div class="settings-group-title" data-i18n="set_data">Данные</div>
+                <div class="settings-row" style="cursor:pointer" onclick="clearCache()"><div class="settings-row-label"><i class="fa-solid fa-trash-can"></i><span data-i18n="set_clear">Очистить кэш</span></div><div class="settings-row-value"><i class="fa-solid fa-chevron-right" style="font-size:11px"></i></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="helpModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title" data-i18n="pd_help">Помощь</div><button class="modal-close" onclick="closeModal('helpModal')"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="modal-body">
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-question"><span data-i18n="faq1_q">Как посмотреть расписание?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq1_a">Перейдите в раздел «Расписание» в боковом меню.</div></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-question"><span data-i18n="faq2_q">Где домашние задания?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq2_a">Откройте раздел «Домашние задания».</div></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-question"><span data-i18n="faq3_q">Как сменить язык?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq3_a">Нажмите кнопку языка (RU/EN/KZ) в правом верхнем углу.</div></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-question"><span data-i18n="faq4_q">Как включить тёмную тему?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq4_a">Нажмите на профиль и выберите «Тема оформления».</div></div></div>
+            <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-question"><span data-i18n="faq5_q">Кому написать за поддержкой?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><div class="faq-answer-inner" data-i18n="faq5_a">Обратитесь к классному руководителю.</div></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title" data-i18n="logout_title">Выход</div><button class="modal-close" onclick="closeModal('logoutModal')"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="modal-body">
+            <div class="logout-body">
+                <div class="logout-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+                <div class="logout-text" data-i18n="logout_text">Вы действительно хотите выйти из аккаунта?</div>
+                <div class="logout-btns">
+                    <button class="btn-action btn-cancel" onclick="closeModal('logoutModal')" data-i18n="logout_cancel">Отмена</button>
+                    <button class="btn-action btn-danger" onclick="doLogout()" data-i18n="logout_confirm">Выйти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="logout-screen" id="logoutScreen">
+    <div class="logout-screen-logo">N</div>
+    <h2 data-i18n="logout_bye">До свидания!</h2>
+    <p data-i18n="logout_bye_text">Вы успешно вышли из системы</p>
+    <button class="btn-login-back" onclick="backToLogin()" data-i18n="logout_back">Войти снова</button>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ============================================================
+   NovaClass
+   ============================================================ */
+
+var ACCOUNT = { login: 'maksim37@nova.class', password: 'maks37', displayName: 'МаксимТестер' };
+var MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+var LS_KEY = 'nc_session';
+
+var i18n = {
+    ru:{login_subtitle:'Войдите в свой аккаунт',login_remember:'Запомнить меня',login_btn:'Войти',err_name_empty:'Введите логин',err_pass_empty:'Введите пароль',err_invalid:'Неверный логин или пароль',login_success:'Добро пожаловать',nav_home:'Главная',nav_schedule:'Расписание',nav_hw:'Домашние задания',nav_diary:'Дневник',nav_grades:'Оценки',profile_name:'Пользователь',profile_role:'Ученик',pd_settings:'Настройки',pd_theme:'Тема оформления',pd_help:'Помощь',pd_logout:'Выйти',hero_title:'Добро пожаловать!',events_title:'Ближайшие события',events_empty:'Событий пока нет',schedule_title:'Расписание',schedule_empty:'Расписание пока не добавлено',hw_title:'Домашние задания',hw_empty:'Заданий пока нет',diary_title:'Дневник',diary_text:'Раздел находится в разработке.',grades_title:'Оценки',grades_subtitle:'Оценки за поведение',grades_avg_label:'Средний балл',grades_empty:'Оценок пока нет',set_general:'Общие',set_notif:'Уведомления',set_sound:'Звук',set_display:'Отображение',set_font:'Размер шрифта',set_small:'Мелкий',set_medium:'Средний',set_large:'Крупный',set_compact:'Компактный режим',set_data:'Данные',set_clear:'Очистить кэш',faq1_q:'Как посмотреть расписание?',faq1_a:'Перейдите в раздел «Расписание» в боковом меню.',faq2_q:'Где домашние задания?',faq2_a:'Откройте раздел «Домашние задания».',faq3_q:'Как сменить язык?',faq3_a:'Нажмите кнопку языка (RU/EN/KZ) в правом верхнем углу.',faq4_q:'Как включить тёмную тему?',faq4_a:'Нажмите на профиль и выберите «Тема оформления».',faq5_q:'Кому написать за поддержкой?',faq5_a:'Обратитесь к классному руководителю.',logout_title:'Выход',logout_text:'Вы действительно хотите выйти из аккаунта?',logout_cancel:'Отмена',logout_confirm:'Выйти',logout_bye:'До свидания!',logout_bye_text:'Вы успешно вышли из системы',logout_back:'Войти снова',toast_notif_on:'Уведомления включены',toast_notif_off:'Уведомления отключены',toast_sound_on:'Звук включён',toast_sound_off:'Звук отключён',toast_compact_on:'Компактный режим включён',toast_compact_off:'Компактный режим отключён',toast_cache:'Кэш очищен',toast_theme_light:'Светлая тема',toast_theme_dark:'Тёмная тема',mon:'Пн',tue:'Вт',wed:'Ср',thu:'Чт',fri:'Пт',jan:'янв',feb:'фев',mar:'мар',apr:'апр',may:'мая',jun:'июн',jul:'июл',aug:'авг',sep:'сен',oct:'окт',nov:'ноя',dec:'дек'},
+    en:{login_subtitle:'Sign in to your account',login_remember:'Remember me',login_btn:'Sign in',err_name_empty:'Enter login',err_pass_empty:'Enter password',err_invalid:'Invalid login or password',login_success:'Welcome',nav_home:'Home',nav_schedule:'Schedule',nav_hw:'Homework',nav_diary:'Diary',nav_grades:'Grades',profile_name:'User',profile_role:'Student',pd_settings:'Settings',pd_theme:'Appearance',pd_help:'Help',pd_logout:'Log out',hero_title:'Welcome!',events_title:'Upcoming Events',events_empty:'No events yet',schedule_title:'Schedule',schedule_empty:'No schedule yet',hw_title:'Homework',hw_empty:'No assignments yet',diary_title:'Diary',diary_text:'This section is under development.',grades_title:'Grades',grades_subtitle:'Behavior grades',grades_avg_label:'Average score',grades_empty:'No grades yet',set_general:'General',set_notif:'Notifications',set_sound:'Sound',set_display:'Display',set_font:'Font size',set_small:'Small',set_medium:'Medium',set_large:'Large',set_compact:'Compact mode',set_data:'Data',set_clear:'Clear cache',faq1_q:'How to view schedule?',faq1_a:'Go to "Schedule" in the sidebar.',faq2_q:'Where is homework?',faq2_a:'Open "Homework" section.',faq3_q:'How to change language?',faq3_a:'Click the language button (RU/EN/KZ) in the top right.',faq4_q:'How to enable dark theme?',faq4_a:'Click profile and select "Appearance".',faq5_q:'Who to contact for support?',faq5_a:'Contact your class teacher.',logout_title:'Log out',logout_text:'Are you sure you want to log out?',logout_cancel:'Cancel',logout_confirm:'Log out',logout_bye:'Goodbye!',logout_bye_text:'You have been logged out',logout_back:'Log in again',toast_notif_on:'Notifications on',toast_notif_off:'Notifications off',toast_sound_on:'Sound on',toast_sound_off:'Sound off',toast_compact_on:'Compact mode on',toast_compact_off:'Compact mode off',toast_cache:'Cache cleared',toast_theme_light:'Light theme',toast_theme_dark:'Dark theme',mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',jan:'Jan',feb:'Feb',mar:'Mar',apr:'Apr',may:'May',jun:'Jun',jul:'Jul',aug:'Aug',sep:'Sep',oct:'Oct',nov:'Nov',dec:'Dec'},
+    kz:{login_subtitle:'Тіркелгіңізге кіріңіз',login_remember:'Мені еске ал',login_btn:'Кіру',err_name_empty:'Логінді енгізіңіз',err_pass_empty:'Құпиясөзді енгізіңіз',err_invalid:'Логин немесе құпиясөз қате',login_success:'Қош келдіңіз',nav_home:'Басты бет',nav_schedule:'Кесте',nav_hw:'Үй тапсырмасы',nav_diary:'Күнделік',nav_grades:'Бағалар',profile_name:'Пайдаланушы',profile_role:'Оқушы',pd_settings:'Баптаулар',pd_theme:'Безендіру',pd_help:'Көмек',pd_logout:'Шығу',hero_title:'Қош келдіңіз!',events_title:'Жақын оқиғалар',events_empty:'Оқиғалар жоқ',schedule_title:'Кесте',schedule_empty:'Кесте жоқ',hw_title:'Үй тапсырмасы',hw_empty:'Тапсырмалар жоқ',diary_title:'Күнделік',diary_text:'Бөлім әзірленуде.',grades_title:'Бағалар',grades_subtitle:'Мінез-құлық бағалары',grades_avg_label:'Орташа балл',grades_empty:'Бағалар жоқ',set_general:'Жалпы',set_notif:'Хабарландырулар',set_sound:'Дыбыс',set_display:'Көрсету',set_font:'Шрифт өлшемі',set_small:'Кіші',set_medium:'Орташа',set_large:'Үлкен',set_compact:'Компактты режим',set_data:'Деректер',set_clear:'Кэшті тазарту',faq1_q:'Кестені қалай көруге болады?',faq1_a:'«Кесте» бөліміне өтіңіз.',faq2_q:'Үй тапсырмалары қайда?',faq2_a:'«Үй тапсырмасы» бөлімін ашыңыз.',faq3_q:'Тілді қалай ауыстыруға болады?',faq3_a:'Жоғарғы оң жақтағы тіл батырмасын басыңыз.',faq4_q:'Қараңғы теманы қалай қосуға болады?',faq4_a:'Профильді басып, «Безендіру» таңдаңыз.',faq5_q:'Көмекке кімге жүгінуге болады?',faq5_a:'Сынып жетекшісіне жүгініңіз.',logout_title:'Шығу',logout_text:'Шығуды растайсыз ба?',logout_cancel:'Болдырмау',logout_confirm:'Шығу',logout_bye:'Сау болыңыз!',logout_bye_text:'Жүйеден шықтыңыз',logout_back:'Қайта кіру',toast_notif_on:'Хабарландырулар қосылды',toast_notif_off:'Хабарландырулар өшірілді',toast_sound_on:'Дыбыс қосылды',toast_sound_off:'Дыбыс өшірілді',toast_compact_on:'Компактты режим қосылды',toast_compact_off:'Компактты режим өшірілді',toast_cache:'Кэш тазартылды',toast_theme_light:'Жарық тема',toast_theme_dark:'Қараңғы тема',mon:'Дс',tue:'Сс',wed:'Ср',thu:'Бс',fri:'Жм',jan:'қаң',feb:'ақп',mar:'нау',apr:'сәу',may:'мам',jun:'мамыр',jul:'шіл',aug:'там',sep:'қыр',oct:'қаз',nov:'қар',dec:'жел'}
+};
+
+var currentLang = 'ru';
+var currentUser = null;
+var darkTheme = false;
+var sidebarOpen = false;
+var currentSection = 'home';
+var rememberChecked = false;
+
+var currentDay = new Date().getDay() - 1;
+if (currentDay < 0) currentDay = 0;
+if (currentDay > 4) currentDay = 4;
+var currentHwDay = currentDay;
+
+function t(key) { return (i18n[currentLang] && i18n[currentLang][key]) || key; }
+
+function getWeekDates() {
+    var now = new Date(), day = now.getDay(), diff = day === 0 ? -6 : 1 - day;
+    var mon = new Date(now); mon.setDate(now.getDate() + diff);
+    var dates = [];
+    for (var i = 0; i < 5; i++) { var d = new Date(mon); d.setDate(mon.getDate() + i); dates.push(d); }
+    return dates;
+}
+var weekDates = getWeekDates();
+
+function formatDate(d) {
+    var m = [t('jan'),t('feb'),t('mar'),t('apr'),t('may'),t('jun'),t('jul'),t('aug'),t('sep'),t('oct'),t('nov'),t('dec')];
+    return d.getDate() + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
+}
+function formatDateFull(d) {
+    var all = {ru:['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],kz:['Жексенбі','Дүйсенбі','Сейсенбі','Сәрсенбі','Бейсенбі','Жұма','Сенбі']};
+    var dn = (all[currentLang]||all.ru)[d.getDay()];
+    return dn.charAt(0).toUpperCase() + dn.slice(1) + ', ' + formatDate(d);
+}
+function isMobile() { return window.innerWidth <= 768; }
+
+function updateClock() {
+    var now = new Date(), loc = currentLang==='en'?'en-US':currentLang==='kz'?'kk-KZ':'ru-RU';
+    var s = now.toLocaleDateString(loc,{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
+    document.getElementById('topbarTime').textContent = s.charAt(0).toUpperCase() + s.slice(1);
+}
+updateClock(); setInterval(updateClock, 30000);
+
+function applyLang() {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var k = el.getAttribute('data-i18n');
+        if (i18n[currentLang][k] !== undefined) el.textContent = i18n[currentLang][k];
+    });
+    renderDayTabs('daysTabs','scheduleDate',currentDay);
+    renderDayTabs('hwDaysTabs','hwDate',currentHwDay);
+    updateWelcomeName();
+}
+
+// Язык
+document.getElementById('langSwitcher').addEventListener('click', function(e) {
+    var btn = e.target.closest('.lang-btn'); if (!btn) return;
+    document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active'); currentLang = btn.dataset.lang; applyLang(); updateClock();
+});
+
+// Сайдбар
+function toggleSidebar() {
+    sidebarOpen = !sidebarOpen;
+    if (isMobile()) { document.getElementById('sidebar').classList.toggle('open',sidebarOpen); document.getElementById('sidebarOverlay').classList.toggle('active',sidebarOpen); }
+    else { document.getElementById('sidebar').classList.toggle('open',sidebarOpen); document.getElementById('mainWrapper').classList.toggle('shifted',sidebarOpen); }
+}
+function closeSidebar() { sidebarOpen=false; document.getElementById('sidebar').classList.remove('open'); document.getElementById('mainWrapper').classList.remove('shifted'); document.getElementById('sidebarOverlay').classList.remove('active'); }
+document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+document.getElementById('sidebarToggle').addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSidebar();}});
+document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
+
+// Профиль дропдаун
+document.getElementById('btnProfile').addEventListener('click', function(e){e.stopPropagation();document.getElementById('profileDropdown').classList.toggle('open');});
+document.addEventListener('click', function(e){if(!document.getElementById('profileDropdown').contains(e.target)&&e.target!==document.getElementById('btnProfile'))document.getElementById('profileDropdown').classList.remove('open');});
+
+document.getElementById('pdSettings').addEventListener('click', function(){document.getElementById('profileDropdown').classList.remove('open');openModal('settingsModal');});
+document.getElementById('pdTheme').addEventListener('click', function(){document.getElementById('profileDropdown').classList.remove('open');toggleTheme();});
+document.getElementById('pdHelp').addEventListener('click', function(){document.getElementById('profileDropdown').classList.remove('open');openModal('helpModal');});
+document.getElementById('pdLogout').addEventListener('click', function(){document.getElementById('profileDropdown').classList.remove('open');openModal('logoutModal');});
+
+// Секции
+document.querySelectorAll('.nav-item').forEach(function(item){
+    item.addEventListener('click', function(){switchSection(item.dataset.section);});
+    item.addEventListener('keydown', function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();switchSection(item.dataset.section);}});
+});
+function switchSection(id) {
+    if (id===currentSection) return;
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.querySelector('.nav-item[data-section="'+id+'"]').classList.add('active');
+    var old = document.getElementById('sec-'+currentSection); old.classList.remove('active');
+    setTimeout(function(){ old.classList.remove('visible'); var nw = document.getElementById('sec-'+id); nw.classList.add('visible'); void nw.offsetHeight; nw.classList.add('active'); currentSection = id; }, 280);
+    if (isMobile()) closeSidebar();
+}
+
+// Табы
+function renderDayTabs(tabsId, dateId, activeDay) {
+    var tabs = document.getElementById(tabsId), date = document.getElementById(dateId);
+    if (!tabs||!date) return;
+    var ds = [t('mon'),t('tue'),t('wed'),t('thu'),t('fri')]; tabs.innerHTML = '';
+    for (var i = 0; i < 5; i++) { (function(idx){
+        var btn = document.createElement('button');
+        btn.className = 'day-tab'+(idx===activeDay?' active':'');
+        btn.textContent = ds[idx]+', '+weekDates[idx].getDate();
+        btn.addEventListener('click', function(){
+            if(tabsId==='daysTabs'){currentDay=idx;renderDayTabs('daysTabs','scheduleDate',idx);}
+            else{currentHwDay=idx;renderDayTabs('hwDaysTabs','hwDate',idx);}
+        });
+        tabs.appendChild(btn);
+    })(i); }
+    date.textContent = formatDateFull(weekDates[activeDay]);
+}
+renderDayTabs('daysTabs','scheduleDate',currentDay);
+renderDayTabs('hwDaysTabs','hwDate',currentHwDay);
+
+// Модалки
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open');});document.getElementById('profileDropdown').classList.remove('open');}});
+
+// Тема
+function toggleTheme(){
+    darkTheme=!darkTheme;document.documentElement.setAttribute('data-theme',darkTheme?'dark':'');
+    document.querySelector('#pdTheme i').className=darkTheme?'fa-solid fa-sun':'fa-solid fa-moon';
+    showToast('info',darkTheme?t('toast_theme_dark'):t('toast_theme_light'));
+}
+
+// Настройки
+function toggleSwitch(el,key){el.classList.toggle('on');var on=el.classList.contains('on');var ts={notif:on?'toast_notif_on':'toast_notif_off',sound:on?'toast_sound_on':'toast_sound_off',compact:on?'toast_compact_on':'toast_compact_off'};if(key==='compact')document.body.style.fontSize=on?'14px':'';showToast('info',t(ts[key]));}
+function changeFontSize(v){document.body.style.fontSize=v+'px';}
+function clearCache(){showToast('success',t('toast_cache'));}
+
+// FAQ
+function toggleFaq(item){var was=item.classList.contains('open');item.closest('.modal-body').querySelectorAll('.faq-item').forEach(function(f){f.classList.remove('open');});if(!was)item.classList.add('open');}
+
+// === ВХОД ===
+var loginNameInput = document.getElementById('loginName');
+var loginPassInput = document.getElementById('loginPass');
+var loginBtn = document.getElementById('loginBtn');
+var nameError = document.getElementById('nameError');
+var passError = document.getElementById('passError');
+var rememberMe = document.getElementById('rememberMe');
+
+rememberMe.addEventListener('click',function(){rememberChecked=!rememberChecked;rememberMe.classList.toggle('checked',rememberChecked);rememberMe.setAttribute('aria-checked',String(rememberChecked));});
+rememberMe.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();rememberMe.click();}});
+loginNameInput.addEventListener('input',function(){clearErr(loginNameInput,nameError);});
+loginPassInput.addEventListener('input',function(){clearErr(loginPassInput,passError);});
+
+function showErr(inp,err,msg){inp.classList.add('error');err.textContent=msg;err.classList.add('show');}
+function clearErr(inp,err){inp.classList.remove('error');err.classList.remove('show');}
+
+document.getElementById('loginForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=loginNameInput.value.trim(), pass=loginPassInput.value, ok=true;
+    if(!name){showErr(loginNameInput,nameError,t('err_name_empty'));ok=false;}
+    if(!pass){showErr(loginPassInput,passError,t('err_pass_empty'));ok=false;}
+    if(!ok) return;
+    if(name!==ACCOUNT.login||pass!==ACCOUNT.password){
+        clearErr(loginPassInput,passError);showErr(loginNameInput,nameError,t('err_invalid'));showToast('error',t('err_invalid'));return;
+    }
+    loginBtn.classList.add('loading');
+    setTimeout(function(){
+        loginBtn.classList.remove('loading'); currentUser=ACCOUNT.displayName;
+        if(rememberChecked) localStorage.setItem(LS_KEY,JSON.stringify({user:ACCOUNT.displayName,expires:Date.now()+MONTH_MS}));
+        updateUserDisplay(ACCOUNT.displayName);
+        document.getElementById('loginScreen').classList.add('hidden');
+        setTimeout(function(){document.getElementById('appWrapper').classList.add('show');showToast('success',t('login_success')+', '+ACCOUNT.displayName+'!');},200);
+    },1000);
+});
+
+function updateUserDisplay(name){
+    var init=name.charAt(0).toUpperCase();if(name.indexOf(' ')>-1){var p=name.split(' ');init=p[0].charAt(0).toUpperCase()+p[1].charAt(0).toUpperCase();}
+    document.getElementById('topbarAvatar').innerHTML=init;document.getElementById('topbarName').textContent=name;
+    document.getElementById('ddAvatar').innerHTML=init;document.getElementById('ddName').textContent=name;updateWelcomeName();
+}
+function updateWelcomeName(){var el=document.getElementById('welcomeName');if(currentUser&&el)el.textContent=', '+currentUser+'!';}
+
+// Выход
+function doLogout(){closeModal('logoutModal');setTimeout(function(){document.getElementById('logoutScreen').classList.add('show');},300);}
+function backToLogin(){
+    document.getElementById('logoutScreen').classList.remove('show');currentUser=null;localStorage.removeItem(LS_KEY);
+    loginNameInput.value='';loginPassInput.value='';clearErr(loginNameInput,nameError);clearErr(loginPassInput,passError);
+    document.getElementById('topbarAvatar').innerHTML='<i class="fa-solid fa-user" style="font-size:14px"></i>';
+    document.getElementById('topbarName').textContent=t('profile_name');
+    document.getElementById('ddAvatar').innerHTML='<i class="fa-solid fa-user" style="font-size:15px"></i>';
+    document.getElementById('ddName').textContent=t('profile_name');document.getElementById('welcomeName').textContent='';
+    document.getElementById('appWrapper').classList.remove('show');
+    setTimeout(function(){document.getElementById('loginScreen').classList.remove('hidden');loginNameInput.focus();},300);
+}
+
+// Тосты
+function showToast(type,msg){
+    var c=document.getElementById('toastContainer'),toast=document.createElement('div');toast.className='toast toast-'+type;
+    var icons={success:'fa-circle-check',info:'fa-circle-info',error:'fa-circle-xmark'};
+    toast.innerHTML='<i class="fa-solid '+(icons[type]||icons.info)+' toast-icon"></i><span>'+msg+'</span>';
+    c.appendChild(toast);setTimeout(function(){toast.classList.add('out');setTimeout(function(){toast.remove();},350);},2800);
+}
+
+// Проверка сессии
+(function(){
+    var saved=localStorage.getItem(LS_KEY);
+    if(saved){try{var s=JSON.parse(saved);if(s.user&&s.expires&&Date.now()<s.expires){currentUser=s.user;updateUserDisplay(s.user);document.getElementById('loginScreen').classList.add('hidden');setTimeout(function(){document.getElementById('appWrapper').classList.add('show');},100);return;}else{localStorage.removeItem(LS_KEY);}}catch(e){localStorage.removeItem(LS_KEY);}}
+    setTimeout(function(){loginNameInput.focus();},600);
+})();
+
+// Ресайз
+window.addEventListener('resize',function(){if(!isMobile()){document.getElementById('sidebarOverlay').classList.remove('active');if(!sidebarOpen)document.getElementById('sidebar').classList.remove('open');}else if(!sidebarOpen)document.getElementById('sidebar').classList.remove('open');});
+if(isMobile()){document.getElementById('sidebar').classList.remove('open');document.getElementById('mainWrapper').classList.remove('shifted');}
+</script>
+</body>
+</html>
