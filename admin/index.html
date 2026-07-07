@@ -324,11 +324,11 @@ document.getElementById('langSw').addEventListener('click',function(e){
 });
 
 // Сохранить
-document.getElementById('btnSave').addEventListener('click',function(){
-    var json=JSON.stringify(DATA,null,2);
-    var blob=new Blob([json],{type:'application/json'});
-    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='data.json';a.click();URL.revokeObjectURL(a.href);
-    toast('success','Данные сохранены в data.json');
+const GITHUB_TOKEN = "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";
+const OWNER = "maksimsuhomlinov37-hue";
+const REPO = "Nova.class";
+const BRANCH = "main";
+const FILE_PATH = "data.json";
 });
 
 // Рендер секций
