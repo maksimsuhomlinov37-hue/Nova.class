@@ -52,6 +52,7 @@ input,select,textarea{font-family:var(--font);outline:none}
 .btn-save{padding:8px 20px;border-radius:12px;background:var(--primary);color:#fff;font-size:13px;font-weight:600;transition:all .3s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(37,99,235,.25)}
 .btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
 .btn-save:active{transform:scale(.97)}
+.btn-save.saving{opacity:.7;pointer-events:none}
 .btn-profile{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:12px;transition:all .3s;border:1px solid var(--border)}
 .btn-profile:hover{background:var(--primary-surface);border-color:var(--border-hover)}
 .avatar-sm{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
@@ -68,7 +69,6 @@ input,select,textarea{font-family:var(--font);outline:none}
 .section.visible{display:block}
 .section.active{opacity:1;transform:translateY(0)}
 
-/* Статистика */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:28px}
 .stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm);transition:all .35s cubic-bezier(.4,0,.2,1);animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both}
 .stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--border-hover)}
@@ -77,7 +77,6 @@ input,select,textarea{font-family:var(--font);outline:none}
 .stat-val{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px}
 .stat-label{font-size:13px;color:var(--text-secondary);font-weight:500}
 
-/* Карточки элементов */
 .item-list{display:flex;flex-direction:column;gap:12px}
 .item-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow-sm);transition:all .35s cubic-bezier(.4,0,.2,1);animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both;display:flex;align-items:center;gap:16px}
 .item-card:hover{box-shadow:var(--shadow);border-color:var(--border-hover)}
@@ -93,14 +92,13 @@ input,select,textarea{font-family:var(--font);outline:none}
 .act-btn.danger:hover{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bg)}
 .act-btn.move:hover{background:var(--warning-bg);color:var(--warning);border-color:var(--warning-bg)}
 
-/* Кнопки */
 .btn-add{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:14px;background:var(--primary);color:#fff;font-size:14px;font-weight:600;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 16px rgba(37,99,235,.25);margin-bottom:20px}
 .btn-add:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.35)}
 .btn-add:active{transform:scale(.97)}
 .btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:14px;background:var(--card-bg);color:var(--text-secondary);font-size:14px;font-weight:600;border:1px solid var(--border);transition:all .3s}
 .btn-secondary:hover{background:var(--primary-surface);color:var(--primary);border-color:var(--primary-bg)}
+.btn-secondary.active{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important}
 
-/* Секция заголовок */
 .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
 .sec-title{font-size:22px;font-weight:800;letter-spacing:-.2px}
 .search-box{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card-bg);transition:all .25s;width:260px}
@@ -108,7 +106,6 @@ input,select,textarea{font-family:var(--font);outline:none}
 .search-box i{color:var(--text-muted);font-size:14px}
 .search-box input{border:none;background:none;font-size:13px;font-weight:500;color:var(--text-primary);width:100%}
 
-/* Модалки */
 .modal-ov{position:fixed;inset:0;background:rgba(17,24,39,.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;opacity:0;visibility:hidden;transition:all .35s;display:flex;align-items:center;justify-content:center;padding:20px}
 .modal-ov.open{opacity:1;visibility:visible}
 .modal-box{background:var(--card-bg);border-radius:var(--radius);width:100%;max-width:520px;box-shadow:var(--shadow-lg);transform:translateY(16px) scale(.97);transition:all .4s cubic-bezier(.4,0,.2,1);overflow:hidden;max-height:85vh;overflow-y:auto}
@@ -133,7 +130,6 @@ input,select,textarea{font-family:var(--font);outline:none}
 .btn-modal.ghost{background:#F3F4F6;color:var(--text-secondary)}
 .btn-modal.ghost:hover{background:var(--primary-surface);color:var(--primary)}
 
-/* Бейджи */
 .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .badge-blue{background:var(--primary-bg);color:var(--primary)}
 .badge-green{background:#D1FAE5;color:#059669}
@@ -141,7 +137,6 @@ input,select,textarea{font-family:var(--font);outline:none}
 .badge-red{background:var(--danger-bg);color:var(--danger)}
 .badge-purple{background:#EDE9FE;color:#7C3AED}
 
-/* Настройки дизайн — превью */
 .design-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .design-preview{background:var(--page-bg);border-radius:var(--radius);border:1px solid var(--border);padding:28px;min-height:320px;display:flex;flex-direction:column;gap:16px;transition:all .4s}
 .preview-header{padding:14px 18px;background:var(--preview-card-bg);border-radius:var(--preview-radius);box-shadow:var(--preview-shadow);display:flex;align-items:center;gap:10px;transition:all .4s}
@@ -154,13 +149,11 @@ input,select,textarea{font-family:var(--font);outline:none}
 .preview-btn{padding:10px 20px;border-radius:var(--preview-radius);background:var(--preview-accent);color:#fff;font-family:var(--preview-font);font-size:var(--preview-text);font-weight:600;text-align:center;transition:all .4s}
 .design-controls{display:flex;flex-direction:column;gap:14px}
 
-/* Toggle */
 .toggle-sw{width:46px;height:26px;border-radius:13px;background:#D1D5DB;position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
 .toggle-sw.on{background:var(--primary)}
 .toggle-sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15);transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .toggle-sw.on::after{transform:translateX(20px)}
 
-/* Тост */
 .toast-wrap{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;gap:8px}
 .toast{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:13px 20px;box-shadow:var(--shadow-lg);font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;animation:toastIn .35s cubic-bezier(.4,0,.2,1) both;min-width:240px}
 .toast.out{animation:toastOut .3s ease both}
@@ -171,7 +164,6 @@ input,select,textarea{font-family:var(--font);outline:none}
 .toast-error .toast-icon{color:var(--danger)}
 .toast-info .toast-icon{color:var(--primary)}
 
-/* Пустое состояние */
 .empty-box{text-align:center;padding:50px 20px;color:var(--text-muted)}
 .empty-box i{font-size:40px;margin-bottom:14px;opacity:.4;display:block}
 .empty-box p{font-size:14px;font-weight:500}
@@ -224,10 +216,10 @@ input,select,textarea{font-family:var(--font);outline:none}
 
 <script>
 /* ============================================================
-   NovaClass Admin Panel
+   NovaClass Admin Panel — исправленная версия
    ============================================================ */
 
-// Данные
+// === Данные приложения ===
 var DATA = {
     schedule: [
         {id:1,day:0,num:1,time:'08:30 – 09:15',name:'Литература',teacher:'Соколова Н. П.',room:'108'},
@@ -258,7 +250,14 @@ var DATA = {
     settings:{projectName:'NovaClass',description:'Образовательная платформа',lang:'ru',dateFormat:'DD.MM.YYYY',timeFormat:'24h',notifications:true}
 };
 
-var DAYS = [{ru:'Понедельник',en:'Monday'},{ru:'Вторник',en:'Tuesday'},{ru:'Среда',en:'Wednesday'},{ru:'Четверг',en:'Thursday'},{ru:'Пятница',en:'Friday'}];
+var DAYS = [
+    {ru:'Понедельник',en:'Monday'},
+    {ru:'Вторник',en:'Tuesday'},
+    {ru:'Среда',en:'Wednesday'},
+    {ru:'Четверг',en:'Thursday'},
+    {ru:'Пятница',en:'Friday'}
+];
+
 var NAV = [
     {id:'home',icon:'fa-house',ru:'Главная',en:'Home'},
     {id:'schedule',icon:'fa-calendar-days',ru:'Расписание',en:'Schedule'},
@@ -270,365 +269,713 @@ var NAV = [
     {id:'design',icon:'fa-palette',ru:'Дизайн',en:'Design'},
     {id:'settings',icon:'fa-gear',ru:'Настройки',en:'Settings'}
 ];
-var curSection = 'home', curLang = 'ru', sidebarOpen = false, nextId = 100;
 
-// Инициализация навигации
+var curSection = 'home';
+var curLang = 'ru';
+var sidebarOpen = false;
+var nextId = 100;
+var scheduleFilterDay = 0;
+
+// === Построение навигации ===
 (function buildNav(){
     var nav = document.getElementById('sidebarNav');
     NAV.forEach(function(n){
         var d = document.createElement('div');
-        d.className = 'nav-item'+(n.id==='home'?' active':'');
+        d.className = 'nav-item' + (n.id === 'home' ? ' active' : '');
         d.dataset.section = n.id;
         d.tabIndex = 0;
-        d.setAttribute('role','button');
-        d.innerHTML = '<i class="fa-solid '+n.icon+'"></i><span>'+n[curLang]+'</span>';
-        d.addEventListener('click',function(){goSection(n.id);});
-        d.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();goSection(n.id);}});
+        d.setAttribute('role', 'button');
+        d.innerHTML = '<i class="fa-solid ' + n.icon + '"></i><span>' + n[curLang] + '</span>';
+        d.addEventListener('click', function(){ goSection(n.id); });
+        d.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); goSection(n.id); }
+        });
         nav.appendChild(d);
     });
 })();
 
+// === Переключение секций ===
 function goSection(id){
-    if(id===curSection)return;
-    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-    document.querySelector('.nav-item[data-section="'+id+'"]').classList.add('active');
+    if(id === curSection) return;
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+    var target = document.querySelector('.nav-item[data-section="' + id + '"]');
+    if(target) target.classList.add('active');
     curSection = id;
-    document.getElementById('pageTitle').textContent = NAV.find(function(n){return n.id===id;})[curLang];
+    document.getElementById('pageTitle').textContent = NAV.find(function(n){ return n.id === id; })[curLang];
     renderSection(id);
-    if(window.innerWidth<=768) closeSidebar();
+    if(window.innerWidth <= 768) closeSidebar();
 }
 
-// Бургер
-document.getElementById('burger').addEventListener('click',toggleSidebar);
-document.getElementById('sidebarHead').addEventListener('click',toggleSidebar);
-document.getElementById('sidebarOv').addEventListener('click',closeSidebar);
+// === Боковая панель ===
+document.getElementById('burger').addEventListener('click', toggleSidebar);
+document.getElementById('sidebarHead').addEventListener('click', toggleSidebar);
+document.getElementById('sidebarOv').addEventListener('click', closeSidebar);
+
 function toggleSidebar(){
-    sidebarOpen=!sidebarOpen;
-    if(window.innerWidth<=768){document.getElementById('sidebar').classList.toggle('open',sidebarOpen);document.getElementById('sidebarOv').classList.toggle('active',sidebarOpen);}
-    else{document.getElementById('sidebar').classList.toggle('open',sidebarOpen);document.getElementById('mainWrap').classList.toggle('shifted',sidebarOpen);}
+    sidebarOpen = !sidebarOpen;
+    if(window.innerWidth <= 768){
+        document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
+        document.getElementById('sidebarOv').classList.toggle('active', sidebarOpen);
+    } else {
+        document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
+        document.getElementById('mainWrap').classList.toggle('shifted', sidebarOpen);
+    }
 }
-function closeSidebar(){sidebarOpen=false;document.getElementById('sidebar').classList.remove('open');document.getElementById('mainWrap').classList.remove('shifted');document.getElementById('sidebarOv').classList.remove('active');}
 
-// Профиль дропдаун
-document.getElementById('btnProf').addEventListener('click',function(e){e.stopPropagation();document.getElementById('profDd').classList.toggle('open');});
-document.addEventListener('click',function(e){if(!document.getElementById('profDd').contains(e.target))document.getElementById('profDd').classList.remove('open');});
+function closeSidebar(){
+    sidebarOpen = false;
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('mainWrap').classList.remove('shifted');
+    document.getElementById('sidebarOv').classList.remove('active');
+}
 
-// Язык
-document.getElementById('langSw').addEventListener('click',function(e){
-    var b=e.target.closest('button');if(!b)return;
-    document.querySelectorAll('.lang-sw button').forEach(function(x){x.classList.remove('active');});
-    b.classList.add('active');curLang=b.dataset.l;
-    document.querySelectorAll('.nav-item').forEach(function(n){var nav=NAV.find(function(x){return x.id===n.dataset.section;});n.querySelector('span').textContent=nav[curLang];});
-    document.getElementById('pageTitle').textContent=NAV.find(function(n){return n.id===curSection;})[curLang];
+// === Профиль dropdown ===
+document.getElementById('btnProf').addEventListener('click', function(e){
+    e.stopPropagation();
+    document.getElementById('profDd').classList.toggle('open');
+});
+document.addEventListener('click', function(e){
+    if(!document.getElementById('profDd').contains(e.target)){
+        document.getElementById('profDd').classList.remove('open');
+    }
+});
+
+// === Переключатель языка ===
+document.getElementById('langSw').addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if(!b) return;
+    document.querySelectorAll('.lang-sw button').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    curLang = b.dataset.l;
+    // Обновляем тексты навигации
+    document.querySelectorAll('.nav-item').forEach(function(n){
+        var navItem = NAV.find(function(x){ return x.id === n.dataset.section; });
+        if(navItem) n.querySelector('span').textContent = navItem[curLang];
+    });
+    document.getElementById('pageTitle').textContent = NAV.find(function(n){ return n.id === curSection; })[curLang];
     renderSection(curSection);
 });
 
-// Сохранить
-const GITHUB_TOKEN = "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";
-const OWNER = "maksimsuhomlinov37-hue";
-const REPO = "Nova.class";
-const BRANCH = "main";
-const FILE_PATH = "data.json";
+// === Кнопка «Сохранить» — запись в GitHub ===
+var GITHUB_TOKEN = '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';
+var OWNER = 'maksimsuhomlinov37-hue';
+var REPO = 'Nova.class';
+var BRANCH = 'main';
+var FILE_PATH = 'data.json';
+
+document.getElementById('btnSave').addEventListener('click', function(){
+    var btn = this;
+    btn.classList.add('saving');
+    btn.querySelector('.save-text').textContent = curLang === 'ru' ? 'Сохранение...' : 'Saving...';
+
+    var content = btoa(unescape(encodeURIComponent(JSON.stringify(DATA, null, 2))));
+    var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + FILE_PATH;
+
+    // Сначала получаем SHA текущего файла
+    fetch(url + '?ref=' + BRANCH, {
+        headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
+    })
+    .then(function(r){
+        if(!r.ok) throw new Error('Файл не найден, создаём новый');
+        return r.json();
+    })
+    .then(function(data){
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'token ' + GITHUB_TOKEN,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'Обновление данных — ' + new Date().toLocaleString('ru-RU'),
+                content: content,
+                sha: data.sha,
+                branch: BRANCH
+            })
+        });
+    })
+    .catch(function(){
+        // Если файл не существует — создаём
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'token ' + GITHUB_TOKEN,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'Создание data.json — ' + new Date().toLocaleString('ru-RU'),
+                content: content,
+                branch: BRANCH
+            })
+        });
+    })
+    .then(function(r){
+        if(!r.ok) throw new Error('Ошибка сохранения');
+        return r.json();
+    })
+    .then(function(){
+        toast('success', curLang === 'ru' ? 'Данные сохранены' : 'Data saved');
+    })
+    .catch(function(err){
+        toast('error', (curLang === 'ru' ? 'Ошибка: ' : 'Error: ') + err.message);
+    })
+    .finally(function(){
+        btn.classList.remove('saving');
+        btn.querySelector('.save-text').textContent = curLang === 'ru' ? 'Сохранить' : 'Save';
+    });
 });
 
-// Рендер секций
+// === Рендер секций ===
 function renderSection(id){
-    var c=document.getElementById('mainContent');
-    c.innerHTML='';
-    var sec=document.createElement('div');
-    sec.className='section visible';
-    var fn={home:renderHome,schedule:renderSchedule,homework:renderHomework,diary:renderDiary,grades:renderGrades,news:renderNews,users:renderUsers,design:renderDesign,settings:renderSettings};
-    if(fn[id])fn[id](sec);
+    var c = document.getElementById('mainContent');
+    c.innerHTML = '';
+    var sec = document.createElement('div');
+    sec.className = 'section visible';
+    var fn = {
+        home: renderHome,
+        schedule: renderSchedule,
+        homework: renderHomework,
+        diary: renderDiary,
+        grades: renderGrades,
+        news: renderNews,
+        users: renderUsers,
+        design: renderDesign,
+        settings: renderSettings
+    };
+    if(fn[id]) fn[id](sec);
     c.appendChild(sec);
-    requestAnimationFrame(function(){sec.classList.add('active');});
+    requestAnimationFrame(function(){ sec.classList.add('active'); });
 }
 
 // === ГЛАВНАЯ ===
 function renderHome(el){
-    el.innerHTML='<div class="stats-grid">'+
-        statCard('fa-users','var(--primary)','var(--primary-bg)',DATA.users.length,curLang==='ru'?'Учеников':'Students')+
-        statCard('fa-book','var(--success)','#D1FAE5',DATA.schedule.length,curLang==='ru'?'Уроков в расписание':'Lessons')+
-        statCard('fa-pen-to-square','#7C3AED','#EDE9FE',DATA.homework.length,curLang==='ru'?'Заданий':'Assignments')+
-        statCard('fa-newspaper','var(--warning)','#FEF3C7',DATA.news.length,curLang==='ru'?'Новостей':'News')+
+    var t = curLang === 'ru';
+    el.innerHTML = '<div class="stats-grid">' +
+        statCard('fa-users', 'var(--primary)', 'var(--primary-bg)', DATA.users.length, t ? 'Учеников' : 'Students') +
+        statCard('fa-book', 'var(--success)', '#D1FAE5', DATA.schedule.length, t ? 'Уроков в расписании' : 'Lessons') +
+        statCard('fa-pen-to-square', '#7C3AED', '#EDE9FE', DATA.homework.length, t ? 'Заданий' : 'Assignments') +
+        statCard('fa-newspaper', 'var(--warning)', '#FEF3C7', DATA.news.length, t ? 'Новостей' : 'News') +
     '</div>';
 }
-function statCard(icon,color,bg,val,label){
-    return '<div class="stat-card"><div class="stat-icon" style="background:'+bg+';color:'+color+'"><i class="fa-solid '+icon+'"></i></div><div class="stat-val">'+val+'</div><div class="stat-label">'+label+'</div></div>';
+
+function statCard(icon, color, bg, val, label){
+    return '<div class="stat-card"><div class="stat-icon" style="background:' + bg + ';color:' + color + '"><i class="fa-solid ' + icon + '"></i></div><div class="stat-val">' + val + '</div><div class="stat-label">' + label + '</div></div>';
 }
 
 // === РАСПИСАНИЕ ===
 function renderSchedule(el){
-    var tabs='<div class="sec-header"><h2 class="sec-title">'+(curLang==='ru'?'Расписание':'Schedule')+'</h2><button class="btn-add" onclick="openScheduleModal()"><i class="fa-solid fa-plus"></i> '+(curLang==='ru'?'Добавить урок':'Add lesson')+'</button></div>';
-    tabs+='<div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">';
-    DAYS.forEach(function(d,i){tabs+='<button class="btn-secondary day-filter'+(i===0?' active':'')+'" onclick="filterScheduleDay('+i+',this)" style="padding:8px 16px;font-size:13px">'+d[curLang]+'</button>';});
-    tabs+='</div>';
-    var list='<div class="item-list" id="scheduleList">';
-    DATA.schedule.filter(function(l){return l.day===0;}).sort(function(a,b){return a.num-b.num;}).forEach(function(l,i){
-        list+=scheduleCard(l,i);
+    var t = curLang === 'ru';
+    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Расписание' : 'Schedule') + '</h2><button class="btn-add" onclick="openScheduleModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить урок' : 'Add lesson') + '</button></div>';
+    html += '<div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">';
+    DAYS.forEach(function(d, i){
+        html += '<button class="btn-secondary day-filter' + (i === 0 ? ' active' : '') + '" onclick="filterScheduleDay(' + i + ',this)" style="padding:8px 16px;font-size:13px">' + d[curLang] + '</button>';
     });
-    list+='</div>';
-    el.innerHTML=tabs+list;
+    html += '</div>';
+    html += '<div class="item-list" id="scheduleList">';
+    DATA.schedule.filter(function(l){ return l.day === 0; }).sort(function(a,b){ return a.num - b.num; }).forEach(function(l, i){
+        html += scheduleCard(l, i);
+    });
+    html += '</div>';
+    el.innerHTML = html;
 }
-function scheduleCard(l,i){
-    return '<div class="item-card" data-id="'+l.id+'" style="animation-delay:'+(i*0.04)+'s"><div class="item-num">'+l.num+'</div><div class="item-info"><div class="item-name">'+l.name+'</div><div class="item-meta"><span><i class="fa-regular fa-clock"></i> '+l.time+'</span><span><i class="fa-solid fa-user"></i> '+l.teacher+'</span><span><i class="fa-solid fa-location-dot"></i> '+l.room+'</span></div></div><div class="item-actions"><button class="act-btn move" onclick="moveLesson('+l.id+',-1)" title="Вверх"><i class="fa-solid fa-chevron-up"></i></button><button class="act-btn move" onclick="moveLesson('+l.id+',1)" title="Вниз"><i class="fa-solid fa-chevron-down"></i></button><button class="act-btn" onclick="openScheduleModal('+l.id+')" title="Изменить"><i class="fa-solid fa-pen"></i></button><button class="act-btn danger" onclick="deleteItem(\'schedule\','+l.id+')" title="Удалить"><i class="fa-solid fa-trash"></i></button></div></div>';
+
+function scheduleCard(l, i){
+    return '<div class="item-card" data-id="' + l.id + '" style="animation-delay:' + (i * 0.04) + 's">' +
+        '<div class="item-num">' + l.num + '</div>' +
+        '<div class="item-info"><div class="item-name">' + l.name + '</div>' +
+        '<div class="item-meta"><span><i class="fa-regular fa-clock"></i> ' + l.time + '</span>' +
+        '<span><i class="fa-solid fa-user"></i> ' + l.teacher + '</span>' +
+        '<span><i class="fa-solid fa-location-dot"></i> ' + l.room + '</span></div></div>' +
+        '<div class="item-actions">' +
+        '<button class="act-btn move" onclick="moveLesson(' + l.id + ',-1)" title="Вверх"><i class="fa-solid fa-chevron-up"></i></button>' +
+        '<button class="act-btn move" onclick="moveLesson(' + l.id + ',1)" title="Вниз"><i class="fa-solid fa-chevron-down"></i></button>' +
+        '<button class="act-btn" onclick="openScheduleModal(' + l.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
+        '<button class="act-btn danger" onclick="deleteItem(\'schedule\',' + l.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
+        '</div></div>';
 }
-var scheduleFilterDay=0;
-function filterScheduleDay(day,btn){
-    scheduleFilterDay=day;
-    document.querySelectorAll('.day-filter').forEach(function(b){b.classList.remove('active');b.style.background='';b.style.color='';b.style.borderColor='';});
-    btn.classList.add('active');btn.style.background='var(--primary)';btn.style.color='#fff';btn.style.borderColor='var(--primary)';
-    var list=document.getElementById('scheduleList');
-    var items=DATA.schedule.filter(function(l){return l.day===day;}).sort(function(a,b){return a.num-b.num;});
-    list.innerHTML=items.length?items.map(function(l,i){return scheduleCard(l,i);}).join(''):'<div class="empty-box"><i class="fa-solid fa-calendar-xmark"></i><p>'+(curLang==='ru'?'Нет уроков':'No lessons')+'</p></div>';
+
+function filterScheduleDay(day, btn){
+    scheduleFilterDay = day;
+    document.querySelectorAll('.day-filter').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    var list = document.getElementById('scheduleList');
+    var items = DATA.schedule.filter(function(l){ return l.day === day; }).sort(function(a,b){ return a.num - b.num; });
+    var t = curLang === 'ru';
+    list.innerHTML = items.length ? items.map(function(l, i){ return scheduleCard(l, i); }).join('') :
+        '<div class="empty-box"><i class="fa-solid fa-calendar-xmark"></i><p>' + (t ? 'Нет уроков' : 'No lessons') + '</p></div>';
 }
-function moveLesson(id,dir){
-    var items=DATA.schedule.filter(function(l){return l.day===scheduleFilterDay;}).sort(function(a,b){return a.num-b.num;});
-    var idx=items.findIndex(function(l){return l.id===id;});
-    var target=idx+dir;
-    if(target<0||target>=items.length)return;
-    var tmpNum=items[idx].num;items[idx].num=items[target].num;items[target].num=tmpNum;
-    filterScheduleDay(scheduleFilterDay,document.querySelector('.day-filter.active'));
-    toast('info',curLang==='ru'?'Урок перемещён':'Lesson moved');
+
+function moveLesson(id, dir){
+    var items = DATA.schedule.filter(function(l){ return l.day === scheduleFilterDay; }).sort(function(a,b){ return a.num - b.num; });
+    var idx = items.findIndex(function(l){ return l.id === id; });
+    var target = idx + dir;
+    if(target < 0 || target >= items.length) return;
+    var tmpNum = items[idx].num;
+    items[idx].num = items[target].num;
+    items[target].num = tmpNum;
+    var activeBtn = document.querySelector('.day-filter.active');
+    filterScheduleDay(scheduleFilterDay, activeBtn);
+    toast('info', curLang === 'ru' ? 'Урок перемещён' : 'Lesson moved');
 }
 
 // === ДОМАШНИЕ ЗАДАНИЯ ===
 function renderHomework(el){
-    el.innerHTML='<div class="sec-header"><h2 class="sec-title">'+(curLang==='ru'?'Домашние задания':'Homework')+'</h2><button class="btn-add" onclick="openHwModal()"><i class="fa-solid fa-plus"></i> '+(curLang==='ru'?'Добавить':'Add')+'</button></div><div class="item-list">'+DATA.homework.map(function(h,i){
-        return '<div class="item-card" style="animation-delay:'+(i*0.04)+'s"><div class="item-num" style="background:#FEF3C7;color:#D97706"><i class="fa-solid fa-pen-to-square" style="font-size:14px"></i></div><div class="item-info"><div class="item-name">'+h.subject+'</div><div class="item-meta"><span><i class="fa-regular fa-calendar"></i> '+h.date+'</span><span style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+h.desc+'</span></div></div><div class="item-actions"><button class="act-btn" onclick="openHwModal('+h.id+')" title="Изменить"><i class="fa-solid fa-pen"></i></button><button class="act-btn danger" onclick="deleteItem(\'homework\','+h.id+')" title="Удалить"><i class="fa-solid fa-trash"></i></button></div></div>';
-    }).join('')+(DATA.homework.length?'':'<div class="empty-box"><i class="fa-solid fa-pen-to-square"></i><p>'+(curLang==='ru'?'Нет заданий':'No assignments')+'</p></div>')+'</div>';
+    var t = curLang === 'ru';
+    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Домашние задания' : 'Homework') + '</h2><button class="btn-add" onclick="openHwModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
+    DATA.homework.forEach(function(h, i){
+        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
+            '<div class="item-num" style="background:#FEF3C7;color:#D97706"><i class="fa-solid fa-pen-to-square" style="font-size:14px"></i></div>' +
+            '<div class="item-info"><div class="item-name">' + h.subject + '</div>' +
+            '<div class="item-meta"><span><i class="fa-regular fa-calendar"></i> ' + h.date + '</span>' +
+            '<span style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + h.desc + '</span></div></div>' +
+            '<div class="item-actions">' +
+            '<button class="act-btn" onclick="openHwModal(' + h.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="act-btn danger" onclick="deleteItem(\'homework\',' + h.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
+            '</div></div>';
+    });
+    if(!DATA.homework.length) html += '<div class="empty-box"><i class="fa-solid fa-pen-to-square"></i><p>' + (t ? 'Нет заданий' : 'No assignments') + '</p></div>';
+    html += '</div>';
+    el.innerHTML = html;
 }
 
 // === ДНЕВНИК ===
 function renderDiary(el){
-    el.innerHTML='<div class="sec-header"><h2 class="sec-title">'+(curLang==='ru'?'Дневник':'Diary')+'</h2><button class="btn-add" onclick="openDiaryModal()"><i class="fa-solid fa-plus"></i> '+(curLang==='ru'?'Добавить':'Add')+'</button></div><div class="item-list">'+DATA.diary.map(function(d,i){
-        return '<div class="item-card" style="animation-delay:'+(i*0.04)+'s"><div class="item-num" style="background:#EDE9FE;color:#7C3AED"><i class="fa-solid fa-book-open" style="font-size:14px"></i></div><div class="item-info"><div class="item-name">'+d.subject+'</div><div class="item-meta"><span><i class="fa-regular fa-calendar"></i> '+d.date+'</span><span><i class="fa-solid fa-check-circle"></i> '+d.attendance+'</span>'+(d.comment?'<span><i class="fa-solid fa-comment"></i> '+d.comment+'</span>':'')+'</div></div><div class="item-actions"><button class="act-btn" onclick="openDiaryModal('+d.id+')" title="Изменить"><i class="fa-solid fa-pen"></i></button><button class="act-btn danger" onclick="deleteItem(\'diary\','+d.id+')" title="Удалить"><i class="fa-solid fa-trash"></i></button></div></div>';
-    }).join('')+(DATA.diary.length?'':'<div class="empty-box"><i class="fa-solid fa-book-open"></i><p>'+(curLang==='ru'?'Нет записей':'No entries')+'</p></div>')+'</div>';
+    var t = curLang === 'ru';
+    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Дневник' : 'Diary') + '</h2><button class="btn-add" onclick="openDiaryModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
+    DATA.diary.forEach(function(d, i){
+        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
+            '<div class="item-num" style="background:#EDE9FE;color:#7C3AED"><i class="fa-solid fa-book-open" style="font-size:14px"></i></div>' +
+            '<div class="item-info"><div class="item-name">' + d.subject + '</div>' +
+            '<div class="item-meta"><span><i class="fa-regular fa-calendar"></i> ' + d.date + '</span>' +
+            '<span><i class="fa-solid fa-check-circle"></i> ' + d.attendance + '</span>' +
+            (d.comment ? '<span><i class="fa-solid fa-comment"></i> ' + d.comment + '</span>' : '') + '</div></div>' +
+            '<div class="item-actions">' +
+            '<button class="act-btn" onclick="openDiaryModal(' + d.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="act-btn danger" onclick="deleteItem(\'diary\',' + d.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
+            '</div></div>';
+    });
+    if(!DATA.diary.length) html += '<div class="empty-box"><i class="fa-solid fa-book-open"></i><p>' + (t ? 'Нет записей' : 'No entries') + '</p></div>';
+    html += '</div>';
+    el.innerHTML = html;
 }
 
 // === ОЦЕНКИ ===
 function renderGrades(el){
-    el.innerHTML='<div class="sec-header"><h2 class="sec-title">'+(curLang==='ru'?'Оценки':'Grades')+'</h2><button class="btn-add" onclick="openGradeModal()"><i class="fa-solid fa-plus"></i> '+(curLang==='ru'?'Добавить':'Add')+'</button></div><div class="item-list">'+DATA.grades.map(function(g,i){
-        var gc=g.grade>=5?'var(--primary)':g.grade>=4?'var(--primary-light)':'#F59E0B';
-        var bgc=g.grade>=5?'var(--primary-bg)':g.grade>=4?'var(--primary-bg)':'#FEF3C7';
-        return '<div class="item-card" style="animation-delay:'+(i*0.04)+'s"><div class="item-num" style="background:'+bgc+';color:'+gc+'">'+g.grade+'</div><div class="item-info"><div class="item-name">'+g.student+' — '+g.subject+'</div><div class="item-meta">'+(g.comment?'<span><i class="fa-solid fa-comment"></i> '+g.comment+'</span>':'')+'</div></div><div class="item-actions"><button class="act-btn" onclick="openGradeModal('+g.id+')" title="Изменить"><i class="fa-solid fa-pen"></i></button><button class="act-btn danger" onclick="deleteItem(\'grades\','+g.id+')" title="Удалить"><i class="fa-solid fa-trash"></i></button></div></div>';
-    }).join('')+(DATA.grades.length?'':'<div class="empty-box"><i class="fa-solid fa-chart-simple"></i><p>'+(curLang==='ru'?'Нет оценок':'No grades')+'</p></div>')+'</div>';
+    var t = curLang === 'ru';
+    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Оценки' : 'Grades') + '</h2><button class="btn-add" onclick="openGradeModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
+    DATA.grades.forEach(function(g, i){
+        var gc = g.grade >= 5 ? 'var(--primary)' : g.grade >= 4 ? 'var(--primary-light)' : '#F59E0B';
+        var bgc = g.grade >= 5 ? 'var(--primary-bg)' : g.grade >= 4 ? 'var(--primary-bg)' : '#FEF3C7';
+        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
+            '<div class="item-num" style="background:' + bgc + ';color:' + gc + '">' + g.grade + '</div>' +
+            '<div class="item-info"><div class="item-name">' + g.student + ' — ' + g.subject + '</div>' +
+            '<div class="item-meta">' + (g.comment ? '<span><i class="fa-solid fa-comment"></i> ' + g.comment + '</span>' : '') + '</div></div>' +
+            '<div class="item-actions">' +
+            '<button class="act-btn" onclick="openGradeModal(' + g.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="act-btn danger" onclick="deleteItem(\'grades\',' + g.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
+            '</div></div>';
+    });
+    if(!DATA.grades.length) html += '<div class="empty-box"><i class="fa-solid fa-chart-simple"></i><p>' + (t ? 'Нет оценок' : 'No grades') + '</p></div>';
+    html += '</div>';
+    el.innerHTML = html;
 }
 
 // === НОВОСТИ ===
 function renderNews(el){
-    el.innerHTML='<div class="sec-header"><h2 class="sec-title">'+(curLang==='ru'?'Новости':'News')+'</h2><button class="btn-add" onclick="openNewsModal()"><i class="fa-solid fa-plus"></i> '+(curLang==='ru'?'Добавить':'Add')+'</button></div><div class="item-list">'+DATA.news.map(function(n,i){
-        return '<div class="item-card" style="animation-delay:'+(i*0.04)+'s"><div class="item-num" style="background:#FEF3C7;color:#D97706"><i class="fa-solid fa-newspaper" style="font-size:14px"></i></div><div class="item-info"><div class="item-name">'+n.title+(n.pinned?' <span class="badge badge-yellow" style="font-size:9px;vertical-align:middle;margin-left:6px"><i class="fa-solid fa-thumbtack"></i></span>':'')+'</div><div class="item-meta"><span><i class="fa-regular fa-calendar"></i> '+n.date+'</span><span style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+n.text+'</span></div></div><div class="item-actions"><button class="act-btn" onclick="openNewsModal('+n.id+')" title="Изменить"><i class="fa-solid fa-pen"></i></button><button class="act-btn danger" onclick="deleteItem(\'news\','+n.id+')" title="Удалить"><i class="fa-solid fa-trash"></i></button></div></div>';
-    }).join('')+(DATA.news.length?'':'<div class="empty-box"><i class="fa-solid fa-newspaper"></i><p>'+(curLang==='ru'?'Нет новостей':'No news')+'</p></div>')+'</div>';
+    var t = curLang === 'ru';
+    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Новости' : 'News') + '</h2><button class="btn-add" onclick="openNewsModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
+    DATA.news.forEach(function(n, i){
+        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
+            '<div class="item-num" style="background:#FEF3C7;color:#D97706"><i class="fa-solid fa-newspaper" style="font-size:14px"></i></div>' +
+            '<div class="item-info"><div class="item-name">' + n.title +
+            (n.pinned ? ' <span class="badge badge-yellow" style="font-size:9px;vertical-align:middle;margin-left:6px"><i class="fa-solid fa-thumbtack"></i></span>' : '') +
+            '</div><div class="item-meta"><span><i class="fa-regular fa-calendar"></i> ' + n.date + '</span>' +
+            '<span style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + n.text + '</span></div></div>' +
+            '<div class="item-actions">' +
+            '<button class="act-btn" onclick="openNewsModal(' + n.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="act-btn danger" onclick="deleteItem(\'news\',' + n.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
+            '</div></div>';
+    });
+    if(!DATA.news.length) html += '<div class="empty-box"><i class="fa-solid fa-newspaper"></i><p>' + (t ? 'Нет новостей' : 'No news') + '</p></div>';
+    html += '</div>';
+    el.innerHTML = html;
 }
 
 // === ПОЛЬЗОВАТЕЛИ ===
 function renderUsers(el){
-    el.innerHTML='<div class="sec-header"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="sec-title">'+(curLang==='ru'?'Пользователи':'Users')+'</h2><div class="search-box"><i class="fa-solid fa-search"></i><input placeholder="'+(curLang==='ru'?'Поиск...':'Search...')+'" oninput="filterUsers(this.value)"></div></div><button class="btn-add" onclick="openUserModal()"><i class="fa-solid fa-plus"></i> '+(curLang==='ru'?'Добавить':'Add')+'</button></div><div class="item-list" id="userList">'+DATA.users.map(function(u,i){
-        return '<div class="item-card user-card" data-search="'+(u.name+' '+u.login+' '+u.class).toLowerCase()+'" style="animation-delay:'+(i*0.04)+'s"><div class="item-num" style="background:var(--primary-bg);color:var(--primary);font-size:13px;font-weight:700">'+u.avatar+'</div><div class="item-info"><div class="item-name">'+u.name+'</div><div class="item-meta"><span><i class="fa-solid fa-envelope"></i> '+u.login+'</span><span class="badge badge-blue">'+u.class+'</span></div></div><div class="item-actions"><button class="act-btn" onclick="openUserModal('+u.id+')" title="Изменить"><i class="fa-solid fa-pen"></i></button><button class="act-btn danger" onclick="deleteItem(\'users\','+u.id+')" title="Удалить"><i class="fa-solid fa-trash"></i></button></div></div>';
-    }).join('')+'</div>';
+    var t = curLang === 'ru';
+    var html = '<div class="sec-header"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="sec-title">' + (t ? 'Пользователи' : 'Users') + '</h2>' +
+        '<div class="search-box"><i class="fa-solid fa-search"></i><input placeholder="' + (t ? 'Поиск...' : 'Search...') + '" oninput="filterUsers(this.value)"></div></div>' +
+        '<button class="btn-add" onclick="openUserModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div>';
+    html += '<div class="item-list" id="userList">';
+    DATA.users.forEach(function(u, i){
+        html += '<div class="item-card user-card" data-search="' + (u.name + ' ' + u.login + ' ' + u.class).toLowerCase() + '" style="animation-delay:' + (i * 0.04) + 's">' +
+            '<div class="item-num" style="background:var(--primary-bg);color:var(--primary);font-size:13px;font-weight:700">' + u.avatar + '</div>' +
+            '<div class="item-info"><div class="item-name">' + u.name + '</div>' +
+            '<div class="item-meta"><span><i class="fa-solid fa-envelope"></i> ' + u.login + '</span>' +
+            '<span class="badge badge-blue">' + u.class + '</span></div></div>' +
+            '<div class="item-actions">' +
+            '<button class="act-btn" onclick="openUserModal(' + u.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="act-btn danger" onclick="deleteItem(\'users\',' + u.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
+            '</div></div>';
+    });
+    html += '</div>';
+    el.innerHTML = html;
 }
+
 function filterUsers(q){
-    q=q.toLowerCase();
+    q = q.toLowerCase();
     document.querySelectorAll('.user-card').forEach(function(c){
-        c.style.display=c.dataset.search.indexOf(q)>-1?'':'none';
+        c.style.display = c.dataset.search.indexOf(q) > -1 ? '' : 'none';
     });
 }
 
 // === ДИЗАЙН ===
 function renderDesign(el){
-    var d=DATA.design;
-    el.innerHTML='<div class="design-grid"><div><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">'+(curLang==='ru'?'Предварительный просмотр':'Preview')+'</h3><div class="design-preview" id="designPreview"><div class="preview-header"><div class="preview-logo">N</div><div class="preview-title">'+d.schoolName+'</div></div><div class="preview-cards"><div class="preview-card"><div class="preview-card-line"></div><div class="preview-card-line"></div></div><div class="preview-card"><div class="preview-card-line"></div></div></div><div class="preview-btn">'+(curLang==='ru'?'Войти':'Sign in')+'</div></div></div><div><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">'+(curLang==='ru'?'Настройки':'Settings')+'</h3><div class="design-controls">'+
-        fg(curLang==='ru'?'Название школы':'School name','<input class="form-input" value="'+d.schoolName+'" oninput="updateDesign(\'schoolName\',this.value)">')+
-        fg(curLang==='ru'?'Основной цвет':'Accent color','<input type="color" class="form-input" value="'+d.accentColor+'" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'accentColor\',this.value)">')+
-        fg(curLang==='ru'?'Фон':'Background','<input type="color" class="form-input" value="'+d.bgColor+'" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'bgColor\',this.value)">')+
-        fg(curLang==='ru'?'Фон карточек':'Card background','<input type="color" class="form-input" value="'+d.cardBg+'" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'cardBg\',this.value)">')+
-        fg(curLang==='ru'?'Размер текста':'Text size','<input type="range" min="12" max="20" value="'+d.textSize+'" oninput="updateDesign(\'textSize\',this.value)" style="width:100%;accent-color:var(--primary)">')+
-        fg(curLang==='ru'?'Скругления':'Border radius','<input type="range" min="0" max="30" value="'+d.radius+'" oninput="updateDesign(\'radius\',this.value)" style="width:100%;accent-color:var(--primary)">')+
-        fg(curLang==='ru'?'Тень':'Shadow opacity','<input type="range" min="0" max="20" value="'+d.shadowOpacity+'" oninput="updateDesign(\'shadowOpacity\',this.value)" style="width:100%;accent-color:var(--primary)">')+
-    '</div></div></div>';
+    var d = DATA.design;
+    var t = curLang === 'ru';
+    el.innerHTML = '<div class="design-grid"><div><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">' + (t ? 'Предварительный просмотр' : 'Preview') + '</h3>' +
+        '<div class="design-preview" id="designPreview">' +
+        '<div class="preview-header"><div class="preview-logo">N</div><div class="preview-title">' + d.schoolName + '</div></div>' +
+        '<div class="preview-cards"><div class="preview-card"><div class="preview-card-line"></div><div class="preview-card-line"></div></div>' +
+        '<div class="preview-card"><div class="preview-card-line"></div></div></div>' +
+        '<div class="preview-btn">' + (t ? 'Войти' : 'Sign in') + '</div></div></div>' +
+        '<div><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">' + (t ? 'Настройки' : 'Settings') + '</h3><div class="design-controls">' +
+        fg(t ? 'Название школы' : 'School name', '<input class="form-input" value="' + d.schoolName + '" oninput="updateDesign(\'schoolName\',this.value)">') +
+        fg(t ? 'Основной цвет' : 'Accent color', '<input type="color" class="form-input" value="' + d.accentColor + '" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'accentColor\',this.value)">') +
+        fg(t ? 'Фон' : 'Background', '<input type="color" class="form-input" value="' + d.bgColor + '" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'bgColor\',this.value)">') +
+        fg(t ? 'Фон карточек' : 'Card background', '<input type="color" class="form-input" value="' + d.cardBg + '" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'cardBg\',this.value)">') +
+        fg(t ? 'Размер текста' : 'Text size', '<input type="range" min="12" max="20" value="' + d.textSize + '" oninput="updateDesign(\'textSize\',this.value);this.nextElementSibling.textContent=this.value+\'px\'" style="width:100%;accent-color:var(--primary)"><span style="font-size:12px;color:var(--text-muted)">' + d.textSize + 'px</span>') +
+        fg(t ? 'Скругления' : 'Border radius', '<input type="range" min="0" max="30" value="' + d.radius + '" oninput="updateDesign(\'radius\',this.value);this.nextElementSibling.textContent=this.value+\'px\'" style="width:100%;accent-color:var(--primary)"><span style="font-size:12px;color:var(--text-muted)">' + d.radius + 'px</span>') +
+        fg(t ? 'Тень' : 'Shadow opacity', '<input type="range" min="0" max="20" value="' + d.shadowOpacity + '" oninput="updateDesign(\'shadowOpacity\',this.value);this.nextElementSibling.textContent=this.value" style="width:100%;accent-color:var(--primary)"><span style="font-size:12px;color:var(--text-muted)">' + d.shadowOpacity + '</span>') +
+        '</div></div></div>';
     updateDesignPreview();
 }
-function fg(label,input){return'<div class="form-group"><label class="form-label">'+label+'</label>'+input+'</div>';}
-function updateDesign(key,val){DATA.design[key]=val;updateDesignPreview();}
+
+function fg(label, input){
+    return '<div class="form-group"><label class="form-label">' + label + '</label>' + input + '</div>';
+}
+
+function updateDesign(key, val){
+    DATA.design[key] = val;
+    updateDesignPreview();
+}
+
 function updateDesignPreview(){
-    var d=DATA.design,p=document.getElementById('designPreview');if(!p)return;
-    p.style.background=d.bgColor;
-    p.style.setProperty('--preview-accent',d.accentColor);
-    p.style.setProperty('--preview-bg',d.bgColor);
-    p.style.setProperty('--preview-card-bg',d.cardBg);
-    p.style.setProperty('--preview-radius',d.radius+'px');
-    p.style.setProperty('--preview-shadow','0 8px 32px rgba(37,99,235,.'+d.shadowOpacity+')');
-    p.style.setProperty('--preview-font',"var(--font)");
-    p.style.setProperty('--preview-text',d.textSize+'px');
+    var d = DATA.design;
+    var p = document.getElementById('designPreview');
+    if(!p) return;
+    p.style.background = d.bgColor;
+    p.style.setProperty('--preview-accent', d.accentColor);
+    p.style.setProperty('--preview-bg', d.bgColor);
+    p.style.setProperty('--preview-card-bg', d.cardBg);
+    p.style.setProperty('--preview-radius', d.radius + 'px');
+    p.style.setProperty('--preview-shadow', '0 8px 32px rgba(0,0,0,.' + (d.shadowOpacity * 0.03).toFixed(3) + ')');
+    p.style.setProperty('--preview-font', "var(--font)");
+    p.style.setProperty('--preview-text', d.textSize + 'px');
+    // Обновляем линии скелетона под акцентный цвет
+    var lines = p.querySelectorAll('.preview-card-line');
+    lines.forEach(function(line){
+        line.style.background = d.accentColor + '22';
+    });
 }
 
 // === НАСТРОЙКИ ===
 function renderSettings(el){
-    var s=DATA.settings;
-    el.innerHTML='<div style="max-width:600px"><div class="card" style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)">'+
-        fg(curLang==='ru'?'Название проекта':'Project name','<input class="form-input" value="'+s.projectName+'" oninput="DATA.settings.projectName=this.value">')+
-        fg(curLang==='ru'?'Описание':'Description','<textarea class="form-textarea" oninput="DATA.settings.description=this.value">'+s.description+'</textarea>')+
-        fg(curLang==='ru'?'Язык':'Language','<select class="form-select" onchange="DATA.settings.lang=this.value"><option value="ru"'+(s.lang==='ru'?' selected':'')+'>Русский</option><option value="en"'+(s.lang==='en'?' selected':'')+'>English</option><option value="kz"'+(s.lang==='kz'?' selected':'')+'>Қазақша</option></select>')+
-        fg(curLang==='ru'?'Формат даты':'Date format','<select class="form-select" onchange="DATA.settings.dateFormat=this.value"><option value="DD.MM.YYYY"'+(s.dateFormat==='DD.MM.YYYY'?' selected':'')+'>DD.MM.YYYY</option><option value="MM/DD/YYYY"'+(s.dateFormat==='MM/DD/YYYY'?' selected':'')+'>MM/DD/YYYY</option><option value="YYYY-MM-DD"'+(s.dateFormat==='YYYY-MM-DD'?' selected':'')+'>YYYY-MM-DD</option></select>')+
-        fg(curLang==='ru'?'Формат времени':'Time format','<select class="form-select" onchange="DATA.settings.timeFormat=this.value"><option value="24h"'+(s.timeFormat==='24h'?' selected':'')+'>24 часа</option><option value="12h"'+(s.timeFormat==='12h'?' selected':'')+'>12 часов</option></select>')+
-        '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="form-label" style="margin:0">'+(curLang==='ru'?'Уведомления':'Notifications')+'</label><div class="toggle-sw'+(s.notifications?' on':'')+'" onclick="this.classList.toggle(\'on\');DATA.settings.notifications=this.classList.contains(\'on\')"></div></div>'+
+    var s = DATA.settings;
+    var t = curLang === 'ru';
+    el.innerHTML = '<div style="max-width:600px"><div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)">' +
+        fg(t ? 'Название проекта' : 'Project name', '<input class="form-input" value="' + s.projectName + '" oninput="DATA.settings.projectName=this.value">') +
+        fg(t ? 'Описание' : 'Description', '<textarea class="form-textarea" oninput="DATA.settings.description=this.value">' + s.description + '</textarea>') +
+        fg(t ? 'Язык' : 'Language', '<select class="form-select" onchange="DATA.settings.lang=this.value"><option value="ru"' + (s.lang === 'ru' ? ' selected' : '') + '>Русский</option><option value="en"' + (s.lang === 'en' ? ' selected' : '') + '>English</option><option value="kz"' + (s.lang === 'kz' ? ' selected' : '') + '>Қазақша</option></select>') +
+        fg(t ? 'Формат даты' : 'Date format', '<select class="form-select" onchange="DATA.settings.dateFormat=this.value"><option value="DD.MM.YYYY"' + (s.dateFormat === 'DD.MM.YYYY' ? ' selected' : '') + '>DD.MM.YYYY</option><option value="MM/DD/YYYY"' + (s.dateFormat === 'MM/DD/YYYY' ? ' selected' : '') + '>MM/DD/YYYY</option><option value="YYYY-MM-DD"' + (s.dateFormat === 'YYYY-MM-DD' ? ' selected' : '') + '>YYYY-MM-DD</option></select>') +
+        fg(t ? 'Формат времени' : 'Time format', '<select class="form-select" onchange="DATA.settings.timeFormat=this.value"><option value="24h"' + (s.timeFormat === '24h' ? ' selected' : '') + '>24 часа</option><option value="12h"' + (s.timeFormat === '12h' ? ' selected' : '') + '>12 часов</option></select>') +
+        '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="form-label" style="margin:0">' + (t ? 'Уведомления' : 'Notifications') + '</label>' +
+        '<div class="toggle-sw' + (s.notifications ? ' on' : '') + '" onclick="this.classList.toggle(\'on\');DATA.settings.notifications=this.classList.contains(\'on\')"></div></div>' +
     '</div></div>';
 }
 
 // === УДАЛЕНИЕ ===
-function deleteItem(collection,id){
-    DATA[collection]=DATA[collection].filter(function(x){return x.id!==id;});
+function deleteItem(collection, id){
+    var t = curLang === 'ru';
+    DATA[collection] = DATA[collection].filter(function(x){ return x.id !== id; });
     renderSection(curSection);
-    toast('success',curLang==='ru'?'Удалено':'Deleted');
+    toast('success', t ? 'Удалено' : 'Deleted');
 }
 
 // === МОДАЛКИ ===
-function openModal(html){var m=document.getElementById('modalBox');m.innerHTML=html;document.getElementById('modalOv').classList.add('open');}
-function closeModal(){document.getElementById('modalOv').classList.remove('open');}
-document.getElementById('modalOv').addEventListener('click',function(e){if(e.target===this)closeModal();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+function openModal(html){
+    document.getElementById('modalBox').innerHTML = html;
+    document.getElementById('modalOv').classList.add('open');
+}
 
-function modalHead(title){return'<div class="modal-head"><div class="modal-title">'+title+'</div><button class="modal-x" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button></div>';}
+function closeModal(){
+    document.getElementById('modalOv').classList.remove('open');
+}
 
-function modalFoot(saveFn){return'<div class="modal-foot"><button class="btn-modal ghost" onclick="closeModal()">'+(curLang==='ru'?'Отмена':'Cancel')+'</button><button class="btn-modal primary" onclick="'+saveFn+'">'+(curLang==='ru'?'Сохранить':'Save')+'</button></div>';}
+document.getElementById('modalOv').addEventListener('click', function(e){
+    if(e.target === this) closeModal();
+});
+document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeModal();
+});
 
-// Расписание модалка
+function modalHead(title){
+    return '<div class="modal-head"><div class="modal-title">' + title + '</div><button class="modal-x" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button></div>';
+}
+
+function modalFoot(saveFn){
+    var t = curLang === 'ru';
+    return '<div class="modal-foot"><button class="btn-modal ghost" onclick="closeModal()">' + (t ? 'Отмена' : 'Cancel') + '</button><button class="btn-modal primary" onclick="' + saveFn + '">' + (t ? 'Сохранить' : 'Save') + '</button></div>';
+}
+
+// === Модалка: Расписание ===
 function openScheduleModal(id){
-    var l=id?DATA.schedule.find(function(x){return x.id===id;}):{day:0,num:DATA.schedule.filter(function(x){return x.day===0;}).length+1,time:'',name:'',teacher:'',room:''};
-    openModal(modalHead(id?(curLang==='ru'?'Изменить урок':'Edit lesson'):(curLang==='ru'?'Добавить урок':'Add lesson'))+
-    '<div class="modal-body">'+
-        fg(curLang==='ru'?'День недели':'Day','<select class="form-select" id="mDay">'+DAYS.map(function(d,i){return'<option value="'+i+'"'+(l.day===i?' selected':'')+'>'+d[curLang]+'</option>';}).join('')+'</select>')+
-        fg(curLang==='ru'?'Номер урока':'Lesson #','<input class="form-input" type="number" id="mNum" value="'+l.num+'" min="1" max="10">')+
-        fg(curLang==='ru'?'Время':'Time','<input class="form-input" id="mTime" value="'+l.time+'" placeholder="08:30 – 09:15">')+
-        fg(curLang==='ru'?'Предмет':'Subject','<input class="form-input" id="mName" value="'+l.name+'">')+
-        fg(curLang==='ru'?'Учитель':'Teacher','<input class="form-input" id="mTeacher" value="'+l.teacher+'">')+
-        fg(curLang==='ru'?'Кабинет':'Room','<input class="form-input" id="mRoom" value="'+l.room+'">')+
-    '</div>'+modalFoot('saveSchedule('+id+')'));
+    var t = curLang === 'ru';
+    var l = id ? DATA.schedule.find(function(x){ return x.id === id; }) :
+        { day: scheduleFilterDay, num: DATA.schedule.filter(function(x){ return x.day === scheduleFilterDay; }).length + 1, time: '', name: '', teacher: '', room: '' };
+    openModal(modalHead(id ? (t ? 'Изменить урок' : 'Edit lesson') : (t ? 'Добавить урок' : 'Add lesson')) +
+        '<div class="modal-body">' +
+        fg(t ? 'День недели' : 'Day', '<select class="form-select" id="mDay">' + DAYS.map(function(d, i){ return '<option value="' + i + '"' + (l.day === i ? ' selected' : '') + '>' + d[curLang] + '</option>'; }).join('') + '</select>') +
+        fg(t ? 'Номер урока' : 'Lesson #', '<input class="form-input" type="number" id="mNum" value="' + l.num + '" min="1" max="10">') +
+        fg(t ? 'Время' : 'Time', '<input class="form-input" id="mTime" value="' + l.time + '" placeholder="08:30 – 09:15">') +
+        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mName" value="' + l.name + '">') +
+        fg(t ? 'Учитель' : 'Teacher', '<input class="form-input" id="mTeacher" value="' + l.teacher + '">') +
+        fg(t ? 'Кабинет' : 'Room', '<input class="form-input" id="mRoom" value="' + l.room + '">') +
+        '</div>' + modalFoot('saveSchedule(' + id + ')'));
 }
 
 function saveSchedule(id){
-    var obj={day:+document.getElementById('mDay').value,num:+document.getElementById('mNum').value,time:document.getElementById('mTime').value,name:document.getElementById('mName').value,teacher:document.getElementById('mTeacher').value,room:document.getElementById('mRoom').value};
-    if(!obj.name||!obj.time){toast('error',curLang==='ru'?'Заполните все поля':'Fill all fields');return;}
-    if(id){var l=DATA.schedule.find(function(x){return x.id===id;});Object.assign(l,obj);}
-    else{obj.id=++nextId;DATA.schedule.push(obj);}
-    closeModal();renderSection('schedule');toast('success',curLang==='ru'?'Сохранено':'Saved');
+    var t = curLang === 'ru';
+    var obj = {
+        day: +document.getElementById('mDay').value,
+        num: +document.getElementById('mNum').value,
+        time: document.getElementById('mTime').value,
+        name: document.getElementById('mName').value,
+        teacher: document.getElementById('mTeacher').value,
+        room: document.getElementById('mRoom').value
+    };
+    if(!obj.name || !obj.time){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
+    if(id){
+        var l = DATA.schedule.find(function(x){ return x.id === id; });
+        if(l) Object.assign(l, obj);
+    } else {
+        obj.id = ++nextId;
+        DATA.schedule.push(obj);
+    }
+    closeModal();
+    renderSection('schedule');
+    toast('success', t ? 'Сохранено' : 'Saved');
 }
 
-// ДЗ модалка
+// === Модалка: ДЗ ===
 function openHwModal(id){
-    var h=id?DATA.homework.find(function(x){return x.id===id;}):{subject:'',desc:'',date:''};
-    openModal(modalHead(id?(curLang==='ru'?'Изменить задание':'Edit assignment'):(curLang==='ru'?'Добавить задание':'Add assignment'))+
-    '<div class="modal-body">'+
-        fg(curLang==='ru'?'Предмет':'Subject','<input class="form-input" id="mSubject" value="'+h.subject+'">')+
-        fg(curLang==='ru'?'Описание':'Description','<textarea class="form-textarea" id="mDesc">'+h.desc+'</textarea>')+
-        fg(curLang==='ru'?'Дата':'Date','<input class="form-input" id="mDate" value="'+h.date+'" placeholder="DD.MM.YYYY">')+
-        '<div class="form-group"><label class="form-label">'+(curLang==='ru'?'Файл':'File')+'</label><button class="btn-secondary" style="font-size:13px" onclick="toast(\'info\',\''+(curLang==='ru'?'Файл выбран':'File selected')+'\')"><i class="fa-solid fa-paperclip"></i> '+(curLang==='ru'?'Прикрепить файл':'Attach file')+'</button></div>'+
-    '</div>'+modalFoot('saveHw('+id+')'));
+    var t = curLang === 'ru';
+    var h = id ? DATA.homework.find(function(x){ return x.id === id; }) : { subject: '', desc: '', date: '' };
+    openModal(modalHead(id ? (t ? 'Изменить задание' : 'Edit assignment') : (t ? 'Добавить задание' : 'Add assignment')) +
+        '<div class="modal-body">' +
+        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mSubject" value="' + h.subject + '">') +
+        fg(t ? 'Описание' : 'Description', '<textarea class="form-textarea" id="mDesc">' + h.desc + '</textarea>') +
+        fg(t ? 'Дата' : 'Date', '<input class="form-input" id="mDate" value="' + h.date + '" placeholder="DD.MM.YYYY">') +
+        '<div class="form-group"><label class="form-label">' + (t ? 'Файл' : 'File') + '</label>' +
+        '<button class="btn-secondary" style="font-size:13px" onclick="toast(\'info\',\'' + (t ? 'Файл выбран' : 'File selected') + '\')"><i class="fa-solid fa-paperclip"></i> ' + (t ? 'Прикрепить файл' : 'Attach file') + '</button></div>' +
+        '</div>' + modalFoot('saveHw(' + id + ')'));
 }
+
 function saveHw(id){
-    var obj={subject:document.getElementById('mSubject').value,desc:document.getElementById('mDesc').value,date:document.getElementById('mDate').value};
-    if(!obj.subject||!obj.date){toast('error',curLang==='ru'?'Заполните все поля':'Fill all fields');return;}
-    if(id){var h=DATA.homework.find(function(x){return x.id===id;});Object.assign(h,obj);}
-    else{obj.id=++nextId;DATA.homework.push(obj);}
-    closeModal();renderSection('homework');toast('success',curLang==='ru'?'Сохранено':'Saved');
+    var t = curLang === 'ru';
+    var obj = {
+        subject: document.getElementById('mSubject').value,
+        desc: document.getElementById('mDesc').value,
+        date: document.getElementById('mDate').value
+    };
+    if(!obj.subject || !obj.date){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
+    if(id){
+        var h = DATA.homework.find(function(x){ return x.id === id; });
+        if(h) Object.assign(h, obj);
+    } else {
+        obj.id = ++nextId;
+        DATA.homework.push(obj);
+    }
+    closeModal();
+    renderSection('homework');
+    toast('success', t ? 'Сохранено' : 'Saved');
 }
 
-// Дневник модалка
+// === Модалка: Дневник ===
 function openDiaryModal(id){
-    var d=id?DATA.diary.find(function(x){return x.id===id;}):{date:'',subject:'',hw:'',attendance:curLang==='ru'?'присутствовал':'present',comment:''};
-    openModal(modalHead(id?(curLang==='ru'?'Изменить запись':'Edit entry'):(curLang==='ru'?'Добавить запись':'Add entry'))+
-    '<div class="modal-body">'+
-        fg(curLang==='ru'?'Дата':'Date','<input class="form-input" id="mDate" value="'+d.date+'" placeholder="DD.MM.YYYY">')+
-        fg(curLang==='ru'?'Предмет':'Subject','<input class="form-input" id="mSubject" value="'+d.subject+'">')+
-        fg(curLang==='ru'?'Домашнее задание':'Homework','<input class="form-input" id="mHw" value="'+d.hw+'">')+
-        fg(curLang==='ru'?'Посещаемость':'Attendance','<input class="form-input" id="mAttend" value="'+d.attendance+'">')+
-        fg(curLang==='ru'?'Комментарий':'Comment','<input class="form-input" id="mComment" value="'+d.comment+'" placeholder="'+(curLang==='ru'?'Необязательно':'Optional')+'">')+
-    '</div>'+modalFoot('saveDiary('+id+')'));
+    var t = curLang === 'ru';
+    var d = id ? DATA.diary.find(function(x){ return x.id === id; }) :
+        { date: '', subject: '', hw: '', attendance: t ? 'присутствовал' : 'present', comment: '' };
+    openModal(modalHead(id ? (t ? 'Изменить запись' : 'Edit entry') : (t ? 'Добавить запись' : 'Add entry')) +
+        '<div class="modal-body">' +
+        fg(t ? 'Дата' : 'Date', '<input class="form-input" id="mDate" value="' + d.date + '" placeholder="DD.MM.YYYY">') +
+        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mSubject" value="' + d.subject + '">') +
+        fg(t ? 'Домашнее задание' : 'Homework', '<input class="form-input" id="mHw" value="' + d.hw + '">') +
+        fg(t ? 'Посещаемость' : 'Attendance', '<input class="form-input" id="mAttend" value="' + d.attendance + '">') +
+        fg(t ? 'Комментарий' : 'Comment', '<input class="form-input" id="mComment" value="' + d.comment + '" placeholder="' + (t ? 'Необязательно' : 'Optional') + '">') +
+        '</div>' + modalFoot('saveDiary(' + id + ')'));
 }
+
 function saveDiary(id){
-    var obj={date:document.getElementById('mDate').value,subject:document.getElementById('mSubject').value,hw:document.getElementById('mHw').value,attendance:document.getElementById('mAttend').value,comment:document.getElementById('mComment').value};
-    if(!obj.subject||!obj.date){toast('error',curLang==='ru'?'Заполните все поля':'Fill all fields');return;}
-    if(id){var d=DATA.diary.find(function(x){return x.id===id;});Object.assign(d,obj);}
-    else{obj.id=++nextId;DATA.diary.push(obj);}
-    closeModal();renderSection('diary');toast('success',curLang==='ru'?'Сохранено':'Saved');
+    var t = curLang === 'ru';
+    var obj = {
+        date: document.getElementById('mDate').value,
+        subject: document.getElementById('mSubject').value,
+        hw: document.getElementById('mHw').value,
+        attendance: document.getElementById('mAttend').value,
+        comment: document.getElementById('mComment').value
+    };
+    if(!obj.subject || !obj.date){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
+    if(id){
+        var d = DATA.diary.find(function(x){ return x.id === id; });
+        if(d) Object.assign(d, obj);
+    } else {
+        obj.id = ++nextId;
+        DATA.diary.push(obj);
+    }
+    closeModal();
+    renderSection('diary');
+    toast('success', t ? 'Сохранено' : 'Saved');
 }
 
-// Оценки модалка
+// === Модалка: Оценки (ИСПРАВЛЕНА — была обрезана) ===
 function openGradeModal(id){
-    var g=id?DATA.grades.find(function(x){return x.id===id;}):{student:'',subject:'',grade:5,comment:''};
-    openModal(modalHead(id?(curLang==='ru'?'Изменить оценку':'Edit grade'):(curLang==='ru'?'Добавить оценку':'Add grade'))+
-    '<div class="modal-body">'+
-        fg(curLang==='ru'?'Ученик':'Student','<input class="form-input" id="mStudent" value="'+g.student+'">')+
-        fg(curLang==='ru'?'Предмет':'Subject','<input class="form-input" id="mSubject" value="'+g.subject+'">')+
-        fg(curLang==='ru'?'Оценка':'Grade','<select class="form-select" id="mGrade"><option value="5"'+(g.grade===5?' selected':'')+'>5</option><option value="4"'+(g.grade===4?' selected':'')+'>4</option><option value="3"'+(g.grade===3?' selected':'')+'>3</option><option value="2"'+(g.grade===2?' selected':'')+'>2</option></select>')+
-        fg(curLang==='ru'?'Комментарий':'Comment','<input class="form-input" id="mComment" value="'+g.comment+'" placeholder="'+(curLang==='ru'?'Необязательно':'Optional')+'">')+
-    '</div>'+modalFoot('saveGrade('+id+')'));
+    var t = curLang === 'ru';
+    var g = id ? DATA.grades.find(function(x){ return x.id === id; }) : { student: '', subject: '', grade: 5, comment: '' };
+    openModal(modalHead(id ? (t ? 'Изменить оценку' : 'Edit grade') : (t ? 'Добавить оценку' : 'Add grade')) +
+        '<div class="modal-body">' +
+        fg(t ? 'Ученик' : 'Student', '<input class="form-input" id="mStudent" value="' + g.student + '">') +
+        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mSubject" value="' + g.subject + '">') +
+        fg(t ? 'Оценка' : 'Grade', '<select class="form-select" id="mGrade">' +
+            '<option value="5"' + (g.grade === 5 ? ' selected' : '') + '>5</option>' +
+            '<option value="4"' + (g.grade === 4 ? ' selected' : '') + '>4</option>' +
+            '<option value="3"' + (g.grade === 3 ? ' selected' : '') + '>3</option>' +
+            '<option value="2"' + (g.grade === 2 ? ' selected' : '') + '>2</option></select>') +
+        fg(t ? 'Комментарий' : 'Comment', '<input class="form-input" id="mComment" value="' + g.comment + '" placeholder="' + (t ? 'Необязательно' : 'Optional') + '">') +
+        '</div>' + modalFoot('saveGrade(' + id + ')'));
 }
+
 function saveGrade(id){
-    var obj={student:document.getElementById('mStudent').value,subject:document.getElementById('mSubject').value,grade:+document.getElementById('mGrade').value,comment:document.getElementById('mComment').value};
-    if(!obj.student||!obj.subject){toast('error',curLang==='ru'?'Заполните все поля':'Fill all fields');return;}
-    if(id){var g=DATA.grades.find(function(x){return x.id===id;});Object.assign(g,obj);}
-    else{obj.id=++nextId;DATA.grades.push(obj);}
-    closeModal();renderSection('grades');toast('success',curLang==='ru'?'Сохранено':'Saved');
+    var t = curLang === 'ru';
+    var obj = {
+        student: document.getElementById('mStudent').value,
+        subject: document.getElementById('mSubject').value,
+        grade: +document.getElementById('mGrade').value,
+        comment: document.getElementById('mComment').value
+    };
+    if(!obj.student || !obj.subject){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
+    if(id){
+        var g = DATA.grades.find(function(x){ return x.id === id; });
+        if(g) Object.assign(g, obj);
+    } else {
+        obj.id = ++nextId;
+        DATA.grades.push(obj);
+    }
+    closeModal();
+    renderSection('grades');
+    toast('success', t ? 'Сохранено' : 'Saved');
 }
 
-// Новости модалка
+// === Модалка: Новости (ДОБАВЛЕНА — отсутствовала) ===
 function openNewsModal(id){
-    var n=id?DATA.news.find(function(x){return x.id===id;}):{title:'',text:'',date:'',pinned:false};
-    openModal(modalHead(id?(curLang==='ru'?'Изменить новость':'Edit news'):(curLang==='ru'?'Добавить новость':'Add news'))+
-    '<div class="modal-body">'+
-        fg(curLang==='ru'?'Заголовок':'Title','<input class="form-input" id="mTitle" value="'+n.title+'">')+
-        fg(curLang==='ru'?'Текст':'Text','<textarea class="form-textarea" id="mText">'+n.text+'</textarea>')+
-        fg(curLang==='ru'?'Дата':'Date','<input class="form-input" id="mDate" value="'+n.date+'" placeholder="DD.MM.YYYY">')+
-        '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="form-label" style="margin:0">'+(curLang==='ru'?'Закрепить':'Pin')+'</label><div class="toggle-sw'+(n.pinned?' on':'')+'" id="mPinned" onclick="this.classList.toggle(\'on\')"></div></div>'+
-    '</div>'+modalFoot('saveNews('+id+')'));
+    var t = curLang === 'ru';
+    var n = id ? DATA.news.find(function(x){ return x.id === id; }) : { title: '', text: '', date: '', pinned: false };
+    openModal(modalHead(id ? (t ? 'Изменить новость' : 'Edit news') : (t ? 'Добавить новость' : 'Add news')) +
+        '<div class="modal-body">' +
+        fg(t ? 'Заголовок' : 'Title', '<input class="form-input" id="mTitle" value="' + n.title + '">') +
+        fg(t ? 'Текст' : 'Text', '<textarea class="form-textarea" id="mText">' + n.text + '</textarea>') +
+        fg(t ? 'Дата' : 'Date', '<input class="form-input" id="mDate" value="' + n.date + '" placeholder="DD.MM.YYYY">') +
+        '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="form-label" style="margin:0">' + (t ? 'Закрепить' : 'Pin') + '</label>' +
+        '<div class="toggle-sw' + (n.pinned ? ' on' : '') + '" id="mPinned" onclick="this.classList.toggle(\'on\')"></div></div>' +
+        '</div>' + modalFoot('saveNews(' + id + ')'));
 }
+
 function saveNews(id){
-    var obj={title:document.getElementById('mTitle').value,text:document.getElementById('mText').value,date:document.getElementById('mDate').value,pinned:document.getElementById('mPinned').classList.contains('on')};
-    if(!obj.title||!obj.date){toast('error',curLang==='ru'?'Заполните все поля':'Fill all fields');return;}
-    if(id){var n=DATA.news.find(function(x){return x.id===id;});Object.assign(n,obj);}
-    else{obj.id=++nextId;DATA.news.push(obj);}
-    closeModal();renderSection('news');toast('success',curLang==='ru'?'Сохранено':'Saved');
+    var t = curLang === 'ru';
+    var obj = {
+        title: document.getElementById('mTitle').value,
+        text: document.getElementById('mText').value,
+        date: document.getElementById('mDate').value,
+        pinned: document.getElementById('mPinned').classList.contains('on')
+    };
+    if(!obj.title || !obj.date){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
+    if(id){
+        var n = DATA.news.find(function(x){ return x.id === id; });
+        if(n) Object.assign(n, obj);
+    } else {
+        obj.id = ++nextId;
+        DATA.news.push(obj);
+    }
+    closeModal();
+    renderSection('news');
+    toast('success', t ? 'Сохранено' : 'Saved');
 }
 
-// Пользователи модалка
+// === Модалка: Пользователи (ДОБАВЛЕНА — отсутствовала) ===
 function openUserModal(id){
-    var u=id?DATA.users.find(function(x){return x.id===id;}):{name:'',login:'',password:'',class:'',avatar:''};
-    openModal(modalHead(id?(curLang==='ru'?'Изменить пользователя':'Edit user'):(curLang==='ru'?'Добавить пользователя':'Add user'))+
-    '<div class="modal-body">'+
-        fg(curLang==='ru'?'Имя':'Name','<input class="form-input" id="mName" value="'+u.name+'">')+
-        fg(curLang==='ru'?'Логин':'Login','<input class="form-input" id="mLogin" value="'+u.login+'">')+
-        fg(curLang==='ru'?'Пароль':'Password','<input class="form-input" id="mPass" type="password" value="'+u.password+'">')+
-        fg(curLang==='ru'?'Класс':'Class','<input class="form-input" id="mClass" value="'+u.class+'" placeholder="8А">')+
-        fg(curLang==='ru'?'Аватар (инициалы)':'Avatar','<input class="form-input" id="mAvatar" value="'+u.avatar+'" maxlength="2" style="width:80px;text-transform:uppercase">')+
-    '</div>'+modalFoot('saveUser('+id+')'));
+    var t = curLang === 'ru';
+    var u = id ? DATA.users.find(function(x){ return x.id === id; }) : { name: '', login: '', password: '', class: '', avatar: '' };
+    openModal(modalHead(id ? (t ? 'Изменить пользователя' : 'Edit user') : (t ? 'Добавить пользователя' : 'Add user')) +
+        '<div class="modal-body">' +
+        fg(t ? 'Имя' : 'Name', '<input class="form-input" id="mName" value="' + u.name + '" oninput="generateAvatar()">') +
+        fg(t ? 'Логин (email)' : 'Login (email)', '<input class="form-input" id="mLogin" value="' + u.login + '">') +
+        fg(t ? 'Пароль' : 'Password', '<input class="form-input" id="mPass" value="' + u.password + '" type="text">') +
+        fg(t ? 'Класс' : 'Class', '<input class="form-input" id="mClass" value="' + u.class + '" placeholder="8А">') +
+        fg(t ? 'Аватар (инициалы)' : 'Avatar (initials)', '<input class="form-input" id="mAvatar" value="' + u.avatar + '" maxlength="3">') +
+        '</div>' + modalFoot('saveUser(' + id + ')'));
 }
+
+function generateAvatar(){
+    var name = document.getElementById('mName').value.trim();
+    if(!name) return;
+    var parts = name.split(/\s+/);
+    var initials = parts.length >= 2 ?
+        (parts[0][0] + parts[1][0]).toUpperCase() :
+        name.substring(0, 2).toUpperCase();
+    document.getElementById('mAvatar').value = initials;
+}
+
 function saveUser(id){
-    var obj={name:document.getElementById('mName').value,login:document.getElementById('mLogin').value,password:document.getElementById('mPass').value,class:document.getElementById('mClass').value,avatar:document.getElementById('mAvatar').value.toUpperCase()};
-    if(!obj.name||!obj.login||!obj.password){toast('error',curLang==='ru'?'Заполните все поля':'Fill all fields');return;}
-    if(id){var u=DATA.users.find(function(x){return x.id===id;});Object.assign(u,obj);}
-    else{obj.id=++nextId;DATA.users.push(obj);}
-    closeModal();renderSection('users');toast('success',curLang==='ru'?'Сохранено':'Saved');
+    var t = curLang === 'ru';
+    var obj = {
+        name: document.getElementById('mName').value,
+        login: document.getElementById('mLogin').value,
+        password: document.getElementById('mPass').value,
+        class: document.getElementById('mClass').value,
+        avatar: document.getElementById('mAvatar').value || '??'
+    };
+    if(!obj.name || !obj.login){ toast('error', t ? 'Заполните имя и логин' : 'Fill name and login'); return; }
+    if(id){
+        var u = DATA.users.find(function(x){ return x.id === id; });
+        if(u) Object.assign(u, obj);
+    } else {
+        obj.id = ++nextId;
+        DATA.users.push(obj);
+    }
+    closeModal();
+    renderSection('users');
+    toast('success', t ? 'Сохранено' : 'Saved');
 }
 
-// Тост
-function toast(type,msg){
-    var c=document.getElementById('toastWrap'),t=document.createElement('div');
-    t.className='toast toast-'+type;
-    var icons={success:'fa-circle-check',error:'fa-circle-xmark',info:'fa-circle-info'};
-    t.innerHTML='<i class="fa-solid '+(icons[type]||icons.info)+' toast-icon"></i><span>'+msg+'</span>';
-    c.appendChild(t);setTimeout(function(){t.classList.add('out');setTimeout(function(){t.remove();},300);},2500);
+// === Тосты ===
+function toast(type, msg){
+    var wrap = document.getElementById('toastWrap');
+    var t = document.createElement('div');
+    var iconMap = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+    t.className = 'toast toast-' + type;
+    t.innerHTML = '<i class="fa-solid ' + (iconMap[type] || iconMap.info) + ' toast-icon"></i><span>' + msg + '</span>';
+    wrap.appendChild(t);
+    setTimeout(function(){
+        t.classList.add('out');
+        setTimeout(function(){ t.remove(); }, 300);
+    }, 2800);
 }
 
-// Ресайз
-window.addEventListener('resize',function(){
-    if(window.innerWidth>768){document.getElementById('sidebarOv').classList.remove('active');if(!sidebarOpen)document.getElementById('sidebar').classList.remove('open');}
-    else if(!sidebarOpen)document.getElementById('sidebar').classList.remove('open');
-});
-if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
-
-// Инициализация
-goSection('home');
+// === Первоначальный рендер ===
+renderSection('home');
 </script>
 </body>
 </html>
