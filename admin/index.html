@@ -1,981 +1,701 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaClass Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-:root{--primary:#2563EB;--primary-dark:#1D4ED8;--primary-light:#3B82F6;--primary-lighter:#60A5FA;--primary-bg:#DBEAFE;--primary-surface:#EFF6FF;--page-bg:#F0F4FA;--card-bg:#FFFFFF;--text-primary:#111827;--text-secondary:#6B7280;--text-muted:#9CA3AF;--border:rgba(37,99,235,.07);--border-hover:rgba(37,99,235,.15);--shadow-sm:0 1px 8px rgba(37,99,235,.04);--shadow:0 8px 32px rgba(37,99,235,.07);--shadow-lg:0 20px 60px rgba(37,99,235,.1);--radius:18px;--sidebar-closed:76px;--sidebar-open:268px;--topbar-h:68px;--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--danger:#EF4444;--danger-bg:#FEF2F2;--success:#059669;--success-bg:#D1FAE5;--warning:#F59E0B;--warning-bg:#FEF3C7;--glass:rgba(255,255,255,.7);--glass-border:rgba(255,255,255,.5);--preview-accent:#2563EB;--preview-bg:#F0F4FA;--preview-radius:18px;--preview-shadow:0 8px 32px rgba(37,99,235,.07);--preview-font:'Inter',sans-serif;--preview-text:14px;--preview-card-bg:#FFFFFF}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--page-bg);color:var(--text-primary);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-button{border:none;background:none;cursor:pointer;font-family:var(--font);color:inherit}
-input,select,textarea{font-family:var(--font);outline:none}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(37,99,235,.1);border-radius:3px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaClass Admin</title>
 
-.sidebar{position:fixed;left:0;top:0;width:var(--sidebar-closed);height:100vh;background:var(--card-bg);border-right:1px solid var(--border);z-index:100;transition:width .45s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden}
-.sidebar.open{width:var(--sidebar-open)}
-.sidebar-head{height:var(--topbar-h);display:flex;align-items:center;padding:0 18px;border-bottom:1px solid var(--border);flex-shrink:0;gap:12px;cursor:pointer;transition:background .3s}
-.sidebar-head:hover{background:var(--primary-surface)}
-.sidebar-logo{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;flex-shrink:0;box-shadow:0 4px 12px rgba(37,99,235,.25);transition:transform .35s ease}
-.sidebar-head:hover .sidebar-logo{transform:scale(1.08) rotate(-2deg)}
-.sidebar-brand{font-weight:700;font-size:16px;white-space:nowrap;opacity:0;transition:opacity .35s ease .12s}
-.sidebar.open .sidebar-brand{opacity:1}
-.sidebar-nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;overflow-x:hidden}
-.nav-item{display:flex;align-items:center;gap:13px;padding:11px 13px;border-radius:14px;transition:all .3s cubic-bezier(.4,0,.2,1);cursor:pointer;white-space:nowrap;overflow:hidden;position:relative}
-.nav-item i{font-size:17px;width:22px;text-align:center;flex-shrink:0;color:var(--text-muted);transition:all .3s ease}
-.nav-item span{font-size:13px;font-weight:500;opacity:0;transition:opacity .25s ease .1s;color:var(--text-secondary)}
-.sidebar.open .nav-item span{opacity:1}
-.nav-item:hover{background:var(--primary-surface)}
-.nav-item:hover i{color:var(--primary);transform:scale(1.08)}
-.nav-item:hover span{color:var(--primary)}
-.nav-item.active{background:var(--primary);box-shadow:0 4px 18px rgba(37,99,235,.3)}
-.nav-item.active i{color:#fff}
-.nav-item.active span{color:#fff;opacity:1}
-
-.main-wrap{margin-left:var(--sidebar-closed);min-height:100vh;transition:margin-left .45s cubic-bezier(.4,0,.2,1)}
-.main-wrap.shifted{margin-left:var(--sidebar-open)}
-
-.topbar{height:var(--topbar-h);background:rgba(255,255,255,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}
-.topbar-left{display:flex;align-items:center;gap:14px}
-.topbar-right{display:flex;align-items:center;gap:8px;position:relative}
-.burger{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all .25s ease;color:var(--text-secondary);font-size:16px}
-.burger:hover{background:var(--primary-surface);color:var(--primary)}
-.page-title{font-size:16px;font-weight:700}
-.lang-sw{display:flex;border-radius:10px;border:1px solid var(--border);overflow:hidden}
-.lang-sw button{padding:5px 11px;font-size:11px;font-weight:700;transition:all .25s;color:var(--text-muted);letter-spacing:.3px}
-.lang-sw button:hover{background:var(--primary-surface);color:var(--primary)}
-.lang-sw button.active{background:var(--primary);color:#fff}
-.btn-save{padding:8px 20px;border-radius:12px;background:var(--primary);color:#fff;font-size:13px;font-weight:600;transition:all .3s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(37,99,235,.25)}
-.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
-.btn-save:active{transform:scale(.97)}
-.btn-save.saving{opacity:.7;pointer-events:none}
-.btn-profile{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:12px;transition:all .3s;border:1px solid var(--border)}
-.btn-profile:hover{background:var(--primary-surface);border-color:var(--border-hover)}
-.avatar-sm{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
-.prof-dd{position:absolute;top:calc(100% + 6px);right:0;width:200px;background:var(--card-bg);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transform:translateY(-6px) scale(.97);transition:all .3s cubic-bezier(.4,0,.2,1);z-index:60;overflow:hidden}
-.prof-dd.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
-.prof-dd-item{display:flex;align-items:center;gap:9px;padding:10px 14px;font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s;cursor:pointer}
-.prof-dd-item:hover{background:var(--primary-surface);color:var(--primary)}
-.prof-dd-item i{width:16px;text-align:center;font-size:13px}
-.prof-dd-item.danger{color:var(--danger)}
-.prof-dd-item.danger:hover{background:var(--danger-bg)}
-
-.content{padding:28px;min-height:calc(100vh - var(--topbar-h))}
-.section{display:none;opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s cubic-bezier(.4,0,.2,1)}
-.section.visible{display:block}
-.section.active{opacity:1;transform:translateY(0)}
-
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:28px}
-.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm);transition:all .35s cubic-bezier(.4,0,.2,1);animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both}
-.stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--border-hover)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.stat-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
-.stat-val{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px}
-.stat-label{font-size:13px;color:var(--text-secondary);font-weight:500}
-
-.item-list{display:flex;flex-direction:column;gap:12px}
-.item-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow-sm);transition:all .35s cubic-bezier(.4,0,.2,1);animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both;display:flex;align-items:center;gap:16px}
-.item-card:hover{box-shadow:var(--shadow);border-color:var(--border-hover)}
-.item-num{width:40px;height:40px;border-radius:12px;background:var(--primary-surface);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:var(--primary);flex-shrink:0;transition:all .3s}
-.item-card:hover .item-num{background:var(--primary);color:#fff;transform:scale(1.06)}
-.item-info{flex:1;min-width:0}
-.item-name{font-size:14px;font-weight:700;margin-bottom:2px}
-.item-meta{font-size:12px;color:var(--text-muted);display:flex;gap:12px;flex-wrap:wrap}
-.item-meta span{display:flex;align-items:center;gap:4px}
-.item-actions{display:flex;gap:6px;flex-shrink:0}
-.act-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);transition:all .25s}
-.act-btn:hover{background:var(--primary-surface);color:var(--primary);border-color:var(--primary-bg);transform:scale(1.08)}
-.act-btn.danger:hover{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bg)}
-.act-btn.move:hover{background:var(--warning-bg);color:var(--warning);border-color:var(--warning-bg)}
-
-.btn-add{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:14px;background:var(--primary);color:#fff;font-size:14px;font-weight:600;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 16px rgba(37,99,235,.25);margin-bottom:20px}
-.btn-add:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.35)}
-.btn-add:active{transform:scale(.97)}
-.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:14px;background:var(--card-bg);color:var(--text-secondary);font-size:14px;font-weight:600;border:1px solid var(--border);transition:all .3s}
-.btn-secondary:hover{background:var(--primary-surface);color:var(--primary);border-color:var(--primary-bg)}
-.btn-secondary.active{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important}
-
-.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.sec-title{font-size:22px;font-weight:800;letter-spacing:-.2px}
-.search-box{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card-bg);transition:all .25s;width:260px}
-.search-box:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.search-box i{color:var(--text-muted);font-size:14px}
-.search-box input{border:none;background:none;font-size:13px;font-weight:500;color:var(--text-primary);width:100%}
-
-.modal-ov{position:fixed;inset:0;background:rgba(17,24,39,.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;opacity:0;visibility:hidden;transition:all .35s;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal-ov.open{opacity:1;visibility:visible}
-.modal-box{background:var(--card-bg);border-radius:var(--radius);width:100%;max-width:520px;box-shadow:var(--shadow-lg);transform:translateY(16px) scale(.97);transition:all .4s cubic-bezier(.4,0,.2,1);overflow:hidden;max-height:85vh;overflow-y:auto}
-.modal-ov.open .modal-box{transform:translateY(0) scale(1)}
-.modal-head{padding:22px 26px 0;display:flex;align-items:center;justify-content:space-between}
-.modal-title{font-size:18px;font-weight:800}
-.modal-x{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .25s;font-size:15px}
-.modal-x:hover{background:#F3F4F6;color:var(--text-primary);transform:rotate(90deg)}
-.modal-body{padding:20px 26px 26px}
-.form-group{margin-bottom:16px}
-.form-group:last-child{margin-bottom:0}
-.form-label{display:block;font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-.form-input,.form-select,.form-textarea{width:100%;padding:11px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--card-bg);color:var(--text-primary);font-size:14px;font-weight:500;transition:all .25s}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.form-textarea{min-height:80px;resize:vertical;line-height:1.6}
-.form-select{cursor:pointer;appearance:auto}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:0 26px 22px}
-.btn-modal{padding:10px 22px;border-radius:12px;font-size:13px;font-weight:600;transition:all .25s}
-.btn-modal.primary{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.25)}
-.btn-modal.primary:hover{box-shadow:0 6px 18px rgba(37,99,235,.35);transform:translateY(-1px)}
-.btn-modal.ghost{background:#F3F4F6;color:var(--text-secondary)}
-.btn-modal.ghost:hover{background:var(--primary-surface);color:var(--primary)}
-
-.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.badge-blue{background:var(--primary-bg);color:var(--primary)}
-.badge-green{background:#D1FAE5;color:#059669}
-.badge-yellow{background:#FEF3C7;color:#D97706}
-.badge-red{background:var(--danger-bg);color:var(--danger)}
-.badge-purple{background:#EDE9FE;color:#7C3AED}
-
-.design-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.design-preview{background:var(--page-bg);border-radius:var(--radius);border:1px solid var(--border);padding:28px;min-height:320px;display:flex;flex-direction:column;gap:16px;transition:all .4s}
-.preview-header{padding:14px 18px;background:var(--preview-card-bg);border-radius:var(--preview-radius);box-shadow:var(--preview-shadow);display:flex;align-items:center;gap:10px;transition:all .4s}
-.preview-logo{width:32px;height:32px;border-radius:10px;background:var(--preview-accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;transition:all .4s}
-.preview-title{font-family:var(--preview-font);font-size:15px;font-weight:700;transition:all .3s}
-.preview-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.preview-card{background:var(--preview-card-bg);border-radius:var(--preview-radius);box-shadow:var(--preview-shadow);padding:16px;transition:all .4s}
-.preview-card-line{height:10px;border-radius:5px;background:var(--primary-bg);opacity:.6;margin-bottom:8px;transition:all .4s}
-.preview-card-line:last-child{margin-bottom:0;width:70%}
-.preview-btn{padding:10px 20px;border-radius:var(--preview-radius);background:var(--preview-accent);color:#fff;font-family:var(--preview-font);font-size:var(--preview-text);font-weight:600;text-align:center;transition:all .4s}
-.design-controls{display:flex;flex-direction:column;gap:14px}
-
-.toggle-sw{width:46px;height:26px;border-radius:13px;background:#D1D5DB;position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
-.toggle-sw.on{background:var(--primary)}
-.toggle-sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.15);transition:transform .3s cubic-bezier(.4,0,.2,1)}
-.toggle-sw.on::after{transform:translateX(20px)}
-
-.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:13px 20px;box-shadow:var(--shadow-lg);font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;animation:toastIn .35s cubic-bezier(.4,0,.2,1) both;min-width:240px}
-.toast.out{animation:toastOut .3s ease both}
-@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes toastOut{to{opacity:0;transform:translateY(8px) scale(.97)}}
-.toast-icon{font-size:16px}
-.toast-success .toast-icon{color:var(--success)}
-.toast-error .toast-icon{color:var(--danger)}
-.toast-info .toast-icon{color:var(--primary)}
-
-.empty-box{text-align:center;padding:50px 20px;color:var(--text-muted)}
-.empty-box i{font-size:40px;margin-bottom:14px;opacity:.4;display:block}
-.empty-box p{font-size:14px;font-weight:500}
-
-.sidebar-ov{position:fixed;inset:0;background:rgba(17,24,39,.25);backdrop-filter:blur(3px);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
-.sidebar-ov.active{opacity:1;pointer-events:all}
-
-@media(max-width:1024px){.design-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}}
-@media(max-width:768px){.sidebar{width:var(--sidebar-open);transform:translateX(-100%);transition:transform .4s cubic-bezier(.4,0,.2,1)}.sidebar.open{transform:translateX(0)}.sidebar .sidebar-brand,.sidebar .nav-item span{opacity:1}.main-wrap{margin-left:0!important}.content{padding:20px 16px}.topbar{padding:0 16px}.search-box{width:180px}.form-row{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.sec-header{flex-direction:column;align-items:flex-start}.item-card{flex-wrap:wrap}.item-actions{width:100%;justify-content:flex-end;margin-top:8px}}
-@media(max-width:480px){.stats-grid{grid-template-columns:1fr}.lang-sw{display:none}.search-box{width:140px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="sidebar-ov" id="sidebarOv"></div>
-
-<aside class="sidebar" id="sidebar">
-    <div class="sidebar-head" id="sidebarHead">
-        <div class="sidebar-logo">N</div>
-        <div class="sidebar-brand">NovaClass</div>
+<div class="loader" id="loader">
+    <div class="loader-logo">
+        <h1>NovaClass</h1>
     </div>
-    <nav class="sidebar-nav" id="sidebarNav"></nav>
-</aside>
-
-<div class="main-wrap" id="mainWrap">
-    <header class="topbar">
-        <div class="topbar-left">
-            <button class="burger" id="burger" aria-label="Меню"><i class="fa-solid fa-bars"></i></button>
-            <span class="page-title" id="pageTitle">Главная</span>
-        </div>
-        <div class="topbar-right">
-            <div class="lang-sw" id="langSw">
-                <button class="active" data-l="ru">RU</button>
-                <button data-l="en">EN</button>
-            </div>
-            <button class="btn-save" id="btnSave" title="Сохранить"><i class="fa-solid fa-cloud-arrow-up"></i><span class="save-text">Сохранить</span></button>
-            <button class="btn-profile" id="btnProf"><div class="avatar-sm">A</div></button>
-            <div class="prof-dd" id="profDd">
-                <div class="prof-dd-item"><i class="fa-solid fa-user"></i><span>Администратор</span></div>
-                <div class="prof-dd-item danger"><i class="fa-solid fa-right-from-bracket"></i><span>Выйти</span></div>
-            </div>
-        </div>
-    </header>
-    <main class="content" id="mainContent"></main>
 </div>
 
-<div class="modal-ov" id="modalOv"><div class="modal-box" id="modalBox"></div></div>
-<div class="toast-wrap" id="toastWrap"></div>
+<div class="app">
 
-<script>
-/* ============================================================
-   NovaClass Admin Panel — исправленная версия
-   ============================================================ */
+    <aside class="sidebar">
 
-// === Данные приложения ===
-var DATA = {
-    schedule: [
-        {id:1,day:0,num:1,time:'08:30 – 09:15',name:'Литература',teacher:'Соколова Н. П.',room:'108'},
-        {id:2,day:0,num:2,time:'09:25 – 10:10',name:'История',teacher:'Морозов И. В.',room:'203'},
-        {id:3,day:0,num:3,time:'10:30 – 11:15',name:'География',teacher:'Белова О. С.',room:'115'},
-        {id:4,day:1,num:1,time:'08:30 – 09:15',name:'Русский язык',teacher:'Петрова С. В.',room:'105'},
-        {id:5,day:1,num:2,time:'09:25 – 10:10',name:'Алгебра',teacher:'Иванова Е. А.',room:'201'},
-        {id:6,day:2,num:1,time:'08:30 – 09:15',name:'Математика',teacher:'Иванова Е. А.',room:'201'},
-        {id:7,day:2,num:2,time:'09:25 – 10:10',name:'Физика',teacher:'Кузнецов Д. В.',room:'210'}
-    ],
-    homework: [
-        {id:1,subject:'Алгебра',desc:'Упражнения 245–250',date:'10.07.2025'},
-        {id:2,subject:'Физика',desc:'Задачи параграф 18',date:'11.07.2025'}
-    ],
-    diary: [
-        {id:1,date:'09.07.2025',subject:'Математика',hw:'Упр. 245–250',attendance:'присутствовал',comment:''}
-    ],
-    grades: [
-        {id:1,student:'МаксимТестер',subject:'Математика',grade:5,comment:'Отличная работа'}
-    ],
-    news: [
-        {id:1,title:'Начало летнего семестра',text:'С 1 июля начинается летний семестр.',date:'01.07.2025',pinned:true}
-    ],
-    users: [
-        {id:1,name:'МаксимТестер',login:'maksim37@nova.class',password:'maks37',class:'8А',avatar:'МТ'}
-    ],
-    design:{schoolName:'NovaClass',accentColor:'#2563EB',bgColor:'#F0F4FA',cardBg:'#FFFFFF',textSize:'14',radius:'18',shadowOpacity:'7',animSpeed:'0.4'},
-    settings:{projectName:'NovaClass',description:'Образовательная платформа',lang:'ru',dateFormat:'DD.MM.YYYY',timeFormat:'24h',notifications:true}
-};
+        <div class="logo">
+            <h1>NovaClass</h1>
+            <span>ADMIN PANEL</span>
+        </div>
 
-var DAYS = [
-    {ru:'Понедельник',en:'Monday'},
-    {ru:'Вторник',en:'Tuesday'},
-    {ru:'Среда',en:'Wednesday'},
-    {ru:'Четверг',en:'Thursday'},
-    {ru:'Пятница',en:'Friday'}
-];
+        <nav class="menu">
 
-var NAV = [
-    {id:'home',icon:'fa-house',ru:'Главная',en:'Home'},
-    {id:'schedule',icon:'fa-calendar-days',ru:'Расписание',en:'Schedule'},
-    {id:'homework',icon:'fa-pen-to-square',ru:'Домашние задания',en:'Homework'},
-    {id:'diary',icon:'fa-book-open',ru:'Дневник',en:'Diary'},
-    {id:'grades',icon:'fa-chart-simple',ru:'Оценки',en:'Grades'},
-    {id:'news',icon:'fa-newspaper',ru:'Новости',en:'News'},
-    {id:'users',icon:'fa-users',ru:'Пользователи',en:'Users'},
-    {id:'design',icon:'fa-palette',ru:'Дизайн',en:'Design'},
-    {id:'settings',icon:'fa-gear',ru:'Настройки',en:'Settings'}
-];
+            <button class="menu-item active">
+                <span>🏠</span>
+                <p>Главная</p>
+            </button>
 
-var curSection = 'home';
-var curLang = 'ru';
-var sidebarOpen = false;
-var nextId = 100;
-var scheduleFilterDay = 0;
+            <button class="menu-item">
+                <span>👨‍🎓</span>
+                <p>Ученики</p>
+            </button>
 
-// === Построение навигации ===
-(function buildNav(){
-    var nav = document.getElementById('sidebarNav');
-    NAV.forEach(function(n){
-        var d = document.createElement('div');
-        d.className = 'nav-item' + (n.id === 'home' ? ' active' : '');
-        d.dataset.section = n.id;
-        d.tabIndex = 0;
-        d.setAttribute('role', 'button');
-        d.innerHTML = '<i class="fa-solid ' + n.icon + '"></i><span>' + n[curLang] + '</span>';
-        d.addEventListener('click', function(){ goSection(n.id); });
-        d.addEventListener('keydown', function(e){
-            if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); goSection(n.id); }
-        });
-        nav.appendChild(d);
-    });
-})();
+            <button class="menu-item">
+                <span>👨‍🏫</span>
+                <p>Учителя</p>
+            </button>
 
-// === Переключение секций ===
-function goSection(id){
-    if(id === curSection) return;
-    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
-    var target = document.querySelector('.nav-item[data-section="' + id + '"]');
-    if(target) target.classList.add('active');
-    curSection = id;
-    document.getElementById('pageTitle').textContent = NAV.find(function(n){ return n.id === id; })[curLang];
-    renderSection(id);
-    if(window.innerWidth <= 768) closeSidebar();
-}
+            <button class="menu-item">
+                <span>📚</span>
+                <p>Классы</p>
+            </button>
 
-// === Боковая панель ===
-document.getElementById('burger').addEventListener('click', toggleSidebar);
-document.getElementById('sidebarHead').addEventListener('click', toggleSidebar);
-document.getElementById('sidebarOv').addEventListener('click', closeSidebar);
+            <button class="menu-item">
+                <span>📅</span>
+                <p>Расписание</p>
+            </button>
 
-function toggleSidebar(){
-    sidebarOpen = !sidebarOpen;
-    if(window.innerWidth <= 768){
-        document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
-        document.getElementById('sidebarOv').classList.toggle('active', sidebarOpen);
-    } else {
-        document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
-        document.getElementById('mainWrap').classList.toggle('shifted', sidebarOpen);
-    }
-}
+            <button class="menu-item">
+                <span>📝</span>
+                <p>Оценки</p>
+            </button>
 
-function closeSidebar(){
-    sidebarOpen = false;
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('mainWrap').classList.remove('shifted');
-    document.getElementById('sidebarOv').classList.remove('active');
-}
+            <button class="menu-item">
+                <span>⚙️</span>
+                <p>Настройки</p>
+            </button>
 
-// === Профиль dropdown ===
-document.getElementById('btnProf').addEventListener('click', function(e){
-    e.stopPropagation();
-    document.getElementById('profDd').classList.toggle('open');
-});
-document.addEventListener('click', function(e){
-    if(!document.getElementById('profDd').contains(e.target)){
-        document.getElementById('profDd').classList.remove('open');
-    }
-});
+        </nav>
 
-// === Переключатель языка ===
-document.getElementById('langSw').addEventListener('click', function(e){
-    var b = e.target.closest('button');
-    if(!b) return;
-    document.querySelectorAll('.lang-sw button').forEach(function(x){ x.classList.remove('active'); });
-    b.classList.add('active');
-    curLang = b.dataset.l;
-    // Обновляем тексты навигации
-    document.querySelectorAll('.nav-item').forEach(function(n){
-        var navItem = NAV.find(function(x){ return x.id === n.dataset.section; });
-        if(navItem) n.querySelector('span').textContent = navItem[curLang];
-    });
-    document.getElementById('pageTitle').textContent = NAV.find(function(n){ return n.id === curSection; })[curLang];
-    renderSection(curSection);
-});
+    </aside>
 
-// === Кнопка «Сохранить» — запись в GitHub ===
-var GITHUB_TOKEN = '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';
-var OWNER = 'maksimsuhomlinov37-hue';
-var REPO = 'Nova.class';
-var BRANCH = 'main';
-var FILE_PATH = 'data.json';
+    <main class="main">
 
-document.getElementById('btnSave').addEventListener('click', function(){
-    var btn = this;
-    btn.classList.add('saving');
-    btn.querySelector('.save-text').textContent = curLang === 'ru' ? 'Сохранение...' : 'Saving...';
+        <header class="header">
 
-    var content = btoa(unescape(encodeURIComponent(JSON.stringify(DATA, null, 2))));
-    var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + FILE_PATH;
+            <div class="header-left">
 
-    // Сначала получаем SHA текущего файла
-    fetch(url + '?ref=' + BRANCH, {
-        headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
-    })
-    .then(function(r){
-        if(!r.ok) throw new Error('Файл не найден, создаём новый');
-        return r.json();
-    })
-    .then(function(data){
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'token ' + GITHUB_TOKEN,
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: 'Обновление данных — ' + new Date().toLocaleString('ru-RU'),
-                content: content,
-                sha: data.sha,
-                branch: BRANCH
-            })
-        });
-    })
-    .catch(function(){
-        // Если файл не существует — создаём
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'token ' + GITHUB_TOKEN,
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: 'Создание data.json — ' + new Date().toLocaleString('ru-RU'),
-                content: content,
-                branch: BRANCH
-            })
-        });
-    })
-    .then(function(r){
-        if(!r.ok) throw new Error('Ошибка сохранения');
-        return r.json();
-    })
-    .then(function(){
-        toast('success', curLang === 'ru' ? 'Данные сохранены' : 'Data saved');
-    })
-    .catch(function(err){
-        toast('error', (curLang === 'ru' ? 'Ошибка: ' : 'Error: ') + err.message);
-    })
-    .finally(function(){
-        btn.classList.remove('saving');
-        btn.querySelector('.save-text').textContent = curLang === 'ru' ? 'Сохранить' : 'Save';
-    });
-});
+                <h2>Главная</h2>
 
-// === Рендер секций ===
-function renderSection(id){
-    var c = document.getElementById('mainContent');
-    c.innerHTML = '';
-    var sec = document.createElement('div');
-    sec.className = 'section visible';
-    var fn = {
-        home: renderHome,
-        schedule: renderSchedule,
-        homework: renderHomework,
-        diary: renderDiary,
-        grades: renderGrades,
-        news: renderNews,
-        users: renderUsers,
-        design: renderDesign,
-        settings: renderSettings
-    };
-    if(fn[id]) fn[id](sec);
-    c.appendChild(sec);
-    requestAnimationFrame(function(){ sec.classList.add('active'); });
-}
+                <p>
+                    Добро пожаловать в NovaClass
+                </p>
 
-// === ГЛАВНАЯ ===
-function renderHome(el){
-    var t = curLang === 'ru';
-    el.innerHTML = '<div class="stats-grid">' +
-        statCard('fa-users', 'var(--primary)', 'var(--primary-bg)', DATA.users.length, t ? 'Учеников' : 'Students') +
-        statCard('fa-book', 'var(--success)', '#D1FAE5', DATA.schedule.length, t ? 'Уроков в расписании' : 'Lessons') +
-        statCard('fa-pen-to-square', '#7C3AED', '#EDE9FE', DATA.homework.length, t ? 'Заданий' : 'Assignments') +
-        statCard('fa-newspaper', 'var(--warning)', '#FEF3C7', DATA.news.length, t ? 'Новостей' : 'News') +
-    '</div>';
-}
+            </div>
 
-function statCard(icon, color, bg, val, label){
-    return '<div class="stat-card"><div class="stat-icon" style="background:' + bg + ';color:' + color + '"><i class="fa-solid ' + icon + '"></i></div><div class="stat-val">' + val + '</div><div class="stat-label">' + label + '</div></div>';
-}
+            <div class="header-right">
 
-// === РАСПИСАНИЕ ===
-function renderSchedule(el){
-    var t = curLang === 'ru';
-    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Расписание' : 'Schedule') + '</h2><button class="btn-add" onclick="openScheduleModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить урок' : 'Add lesson') + '</button></div>';
-    html += '<div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">';
-    DAYS.forEach(function(d, i){
-        html += '<button class="btn-secondary day-filter' + (i === 0 ? ' active' : '') + '" onclick="filterScheduleDay(' + i + ',this)" style="padding:8px 16px;font-size:13px">' + d[curLang] + '</button>';
-    });
-    html += '</div>';
-    html += '<div class="item-list" id="scheduleList">';
-    DATA.schedule.filter(function(l){ return l.day === 0; }).sort(function(a,b){ return a.num - b.num; }).forEach(function(l, i){
-        html += scheduleCard(l, i);
-    });
-    html += '</div>';
-    el.innerHTML = html;
-}
+                <input
+                    type="text"
+                    placeholder="Поиск..."
+                    id="search"
+                >
 
-function scheduleCard(l, i){
-    return '<div class="item-card" data-id="' + l.id + '" style="animation-delay:' + (i * 0.04) + 's">' +
-        '<div class="item-num">' + l.num + '</div>' +
-        '<div class="item-info"><div class="item-name">' + l.name + '</div>' +
-        '<div class="item-meta"><span><i class="fa-regular fa-clock"></i> ' + l.time + '</span>' +
-        '<span><i class="fa-solid fa-user"></i> ' + l.teacher + '</span>' +
-        '<span><i class="fa-solid fa-location-dot"></i> ' + l.room + '</span></div></div>' +
-        '<div class="item-actions">' +
-        '<button class="act-btn move" onclick="moveLesson(' + l.id + ',-1)" title="Вверх"><i class="fa-solid fa-chevron-up"></i></button>' +
-        '<button class="act-btn move" onclick="moveLesson(' + l.id + ',1)" title="Вниз"><i class="fa-solid fa-chevron-down"></i></button>' +
-        '<button class="act-btn" onclick="openScheduleModal(' + l.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
-        '<button class="act-btn danger" onclick="deleteItem(\'schedule\',' + l.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
-        '</div></div>';
-}
+                <button id="notification">
+                    🔔
+                </button>
 
-function filterScheduleDay(day, btn){
-    scheduleFilterDay = day;
-    document.querySelectorAll('.day-filter').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    var list = document.getElementById('scheduleList');
-    var items = DATA.schedule.filter(function(l){ return l.day === day; }).sort(function(a,b){ return a.num - b.num; });
-    var t = curLang === 'ru';
-    list.innerHTML = items.length ? items.map(function(l, i){ return scheduleCard(l, i); }).join('') :
-        '<div class="empty-box"><i class="fa-solid fa-calendar-xmark"></i><p>' + (t ? 'Нет уроков' : 'No lessons') + '</p></div>';
-}
+                <button id="profile">
+                    Администратор
+                </button>
 
-function moveLesson(id, dir){
-    var items = DATA.schedule.filter(function(l){ return l.day === scheduleFilterDay; }).sort(function(a,b){ return a.num - b.num; });
-    var idx = items.findIndex(function(l){ return l.id === id; });
-    var target = idx + dir;
-    if(target < 0 || target >= items.length) return;
-    var tmpNum = items[idx].num;
-    items[idx].num = items[target].num;
-    items[target].num = tmpNum;
-    var activeBtn = document.querySelector('.day-filter.active');
-    filterScheduleDay(scheduleFilterDay, activeBtn);
-    toast('info', curLang === 'ru' ? 'Урок перемещён' : 'Lesson moved');
-}
+            </div>
 
-// === ДОМАШНИЕ ЗАДАНИЯ ===
-function renderHomework(el){
-    var t = curLang === 'ru';
-    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Домашние задания' : 'Homework') + '</h2><button class="btn-add" onclick="openHwModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
-    DATA.homework.forEach(function(h, i){
-        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
-            '<div class="item-num" style="background:#FEF3C7;color:#D97706"><i class="fa-solid fa-pen-to-square" style="font-size:14px"></i></div>' +
-            '<div class="item-info"><div class="item-name">' + h.subject + '</div>' +
-            '<div class="item-meta"><span><i class="fa-regular fa-calendar"></i> ' + h.date + '</span>' +
-            '<span style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + h.desc + '</span></div></div>' +
-            '<div class="item-actions">' +
-            '<button class="act-btn" onclick="openHwModal(' + h.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
-            '<button class="act-btn danger" onclick="deleteItem(\'homework\',' + h.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
-            '</div></div>';
-    });
-    if(!DATA.homework.length) html += '<div class="empty-box"><i class="fa-solid fa-pen-to-square"></i><p>' + (t ? 'Нет заданий' : 'No assignments') + '</p></div>';
-    html += '</div>';
-    el.innerHTML = html;
-}
+        </header>
 
-// === ДНЕВНИК ===
-function renderDiary(el){
-    var t = curLang === 'ru';
-    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Дневник' : 'Diary') + '</h2><button class="btn-add" onclick="openDiaryModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
-    DATA.diary.forEach(function(d, i){
-        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
-            '<div class="item-num" style="background:#EDE9FE;color:#7C3AED"><i class="fa-solid fa-book-open" style="font-size:14px"></i></div>' +
-            '<div class="item-info"><div class="item-name">' + d.subject + '</div>' +
-            '<div class="item-meta"><span><i class="fa-regular fa-calendar"></i> ' + d.date + '</span>' +
-            '<span><i class="fa-solid fa-check-circle"></i> ' + d.attendance + '</span>' +
-            (d.comment ? '<span><i class="fa-solid fa-comment"></i> ' + d.comment + '</span>' : '') + '</div></div>' +
-            '<div class="item-actions">' +
-            '<button class="act-btn" onclick="openDiaryModal(' + d.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
-            '<button class="act-btn danger" onclick="deleteItem(\'diary\',' + d.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
-            '</div></div>';
-    });
-    if(!DATA.diary.length) html += '<div class="empty-box"><i class="fa-solid fa-book-open"></i><p>' + (t ? 'Нет записей' : 'No entries') + '</p></div>';
-    html += '</div>';
-    el.innerHTML = html;
-}
+        <section class="dashboard">
 
-// === ОЦЕНКИ ===
-function renderGrades(el){
-    var t = curLang === 'ru';
-    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Оценки' : 'Grades') + '</h2><button class="btn-add" onclick="openGradeModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
-    DATA.grades.forEach(function(g, i){
-        var gc = g.grade >= 5 ? 'var(--primary)' : g.grade >= 4 ? 'var(--primary-light)' : '#F59E0B';
-        var bgc = g.grade >= 5 ? 'var(--primary-bg)' : g.grade >= 4 ? 'var(--primary-bg)' : '#FEF3C7';
-        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
-            '<div class="item-num" style="background:' + bgc + ';color:' + gc + '">' + g.grade + '</div>' +
-            '<div class="item-info"><div class="item-name">' + g.student + ' — ' + g.subject + '</div>' +
-            '<div class="item-meta">' + (g.comment ? '<span><i class="fa-solid fa-comment"></i> ' + g.comment + '</span>' : '') + '</div></div>' +
-            '<div class="item-actions">' +
-            '<button class="act-btn" onclick="openGradeModal(' + g.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
-            '<button class="act-btn danger" onclick="deleteItem(\'grades\',' + g.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
-            '</div></div>';
-    });
-    if(!DATA.grades.length) html += '<div class="empty-box"><i class="fa-solid fa-chart-simple"></i><p>' + (t ? 'Нет оценок' : 'No grades') + '</p></div>';
-    html += '</div>';
-    el.innerHTML = html;
-}
+            <div class="cards">
 
-// === НОВОСТИ ===
-function renderNews(el){
-    var t = curLang === 'ru';
-    var html = '<div class="sec-header"><h2 class="sec-title">' + (t ? 'Новости' : 'News') + '</h2><button class="btn-add" onclick="openNewsModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div><div class="item-list">';
-    DATA.news.forEach(function(n, i){
-        html += '<div class="item-card" style="animation-delay:' + (i * 0.04) + 's">' +
-            '<div class="item-num" style="background:#FEF3C7;color:#D97706"><i class="fa-solid fa-newspaper" style="font-size:14px"></i></div>' +
-            '<div class="item-info"><div class="item-name">' + n.title +
-            (n.pinned ? ' <span class="badge badge-yellow" style="font-size:9px;vertical-align:middle;margin-left:6px"><i class="fa-solid fa-thumbtack"></i></span>' : '') +
-            '</div><div class="item-meta"><span><i class="fa-regular fa-calendar"></i> ' + n.date + '</span>' +
-            '<span style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + n.text + '</span></div></div>' +
-            '<div class="item-actions">' +
-            '<button class="act-btn" onclick="openNewsModal(' + n.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
-            '<button class="act-btn danger" onclick="deleteItem(\'news\',' + n.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
-            '</div></div>';
-    });
-    if(!DATA.news.length) html += '<div class="empty-box"><i class="fa-solid fa-newspaper"></i><p>' + (t ? 'Нет новостей' : 'No news') + '</p></div>';
-    html += '</div>';
-    el.innerHTML = html;
-}
+                <div class="card">
+                    <h3>Ученики</h3>
+                    <span id="studentsCount">0</span>
+                </div>
 
-// === ПОЛЬЗОВАТЕЛИ ===
-function renderUsers(el){
-    var t = curLang === 'ru';
-    var html = '<div class="sec-header"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h2 class="sec-title">' + (t ? 'Пользователи' : 'Users') + '</h2>' +
-        '<div class="search-box"><i class="fa-solid fa-search"></i><input placeholder="' + (t ? 'Поиск...' : 'Search...') + '" oninput="filterUsers(this.value)"></div></div>' +
-        '<button class="btn-add" onclick="openUserModal()"><i class="fa-solid fa-plus"></i> ' + (t ? 'Добавить' : 'Add') + '</button></div>';
-    html += '<div class="item-list" id="userList">';
-    DATA.users.forEach(function(u, i){
-        html += '<div class="item-card user-card" data-search="' + (u.name + ' ' + u.login + ' ' + u.class).toLowerCase() + '" style="animation-delay:' + (i * 0.04) + 's">' +
-            '<div class="item-num" style="background:var(--primary-bg);color:var(--primary);font-size:13px;font-weight:700">' + u.avatar + '</div>' +
-            '<div class="item-info"><div class="item-name">' + u.name + '</div>' +
-            '<div class="item-meta"><span><i class="fa-solid fa-envelope"></i> ' + u.login + '</span>' +
-            '<span class="badge badge-blue">' + u.class + '</span></div></div>' +
-            '<div class="item-actions">' +
-            '<button class="act-btn" onclick="openUserModal(' + u.id + ')" title="Изменить"><i class="fa-solid fa-pen"></i></button>' +
-            '<button class="act-btn danger" onclick="deleteItem(\'users\',' + u.id + ')" title="Удалить"><i class="fa-solid fa-trash"></i></button>' +
-            '</div></div>';
-    });
-    html += '</div>';
-    el.innerHTML = html;
-}
+                <div class="card">
+                    <h3>Учителя</h3>
+                    <span id="teachersCount">0</span>
+                </div>
 
-function filterUsers(q){
-    q = q.toLowerCase();
-    document.querySelectorAll('.user-card').forEach(function(c){
-        c.style.display = c.dataset.search.indexOf(q) > -1 ? '' : 'none';
-    });
-}
+                <div class="card">
+                    <h3>Классы</h3>
+                    <span id="classesCount">0</span>
+                </div>
 
-// === ДИЗАЙН ===
-function renderDesign(el){
-    var d = DATA.design;
-    var t = curLang === 'ru';
-    el.innerHTML = '<div class="design-grid"><div><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">' + (t ? 'Предварительный просмотр' : 'Preview') + '</h3>' +
-        '<div class="design-preview" id="designPreview">' +
-        '<div class="preview-header"><div class="preview-logo">N</div><div class="preview-title">' + d.schoolName + '</div></div>' +
-        '<div class="preview-cards"><div class="preview-card"><div class="preview-card-line"></div><div class="preview-card-line"></div></div>' +
-        '<div class="preview-card"><div class="preview-card-line"></div></div></div>' +
-        '<div class="preview-btn">' + (t ? 'Войти' : 'Sign in') + '</div></div></div>' +
-        '<div><h3 style="font-size:15px;font-weight:700;margin-bottom:16px">' + (t ? 'Настройки' : 'Settings') + '</h3><div class="design-controls">' +
-        fg(t ? 'Название школы' : 'School name', '<input class="form-input" value="' + d.schoolName + '" oninput="updateDesign(\'schoolName\',this.value)">') +
-        fg(t ? 'Основной цвет' : 'Accent color', '<input type="color" class="form-input" value="' + d.accentColor + '" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'accentColor\',this.value)">') +
-        fg(t ? 'Фон' : 'Background', '<input type="color" class="form-input" value="' + d.bgColor + '" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'bgColor\',this.value)">') +
-        fg(t ? 'Фон карточек' : 'Card background', '<input type="color" class="form-input" value="' + d.cardBg + '" style="height:44px;padding:4px;cursor:pointer" oninput="updateDesign(\'cardBg\',this.value)">') +
-        fg(t ? 'Размер текста' : 'Text size', '<input type="range" min="12" max="20" value="' + d.textSize + '" oninput="updateDesign(\'textSize\',this.value);this.nextElementSibling.textContent=this.value+\'px\'" style="width:100%;accent-color:var(--primary)"><span style="font-size:12px;color:var(--text-muted)">' + d.textSize + 'px</span>') +
-        fg(t ? 'Скругления' : 'Border radius', '<input type="range" min="0" max="30" value="' + d.radius + '" oninput="updateDesign(\'radius\',this.value);this.nextElementSibling.textContent=this.value+\'px\'" style="width:100%;accent-color:var(--primary)"><span style="font-size:12px;color:var(--text-muted)">' + d.radius + 'px</span>') +
-        fg(t ? 'Тень' : 'Shadow opacity', '<input type="range" min="0" max="20" value="' + d.shadowOpacity + '" oninput="updateDesign(\'shadowOpacity\',this.value);this.nextElementSibling.textContent=this.value" style="width:100%;accent-color:var(--primary)"><span style="font-size:12px;color:var(--text-muted)">' + d.shadowOpacity + '</span>') +
-        '</div></div></div>';
-    updateDesignPreview();
-}
+                <div class="card">
+                    <h3>Сегодня уроков</h3>
+                    <span id="lessonsCount">0</span>
+                </div>
 
-function fg(label, input){
-    return '<div class="form-group"><label class="form-label">' + label + '</label>' + input + '</div>';
-}
+            </div>
 
-function updateDesign(key, val){
-    DATA.design[key] = val;
-    updateDesignPreview();
-}
+            <div class="content">
+            <div class="row">
 
-function updateDesignPreview(){
-    var d = DATA.design;
-    var p = document.getElementById('designPreview');
-    if(!p) return;
-    p.style.background = d.bgColor;
-    p.style.setProperty('--preview-accent', d.accentColor);
-    p.style.setProperty('--preview-bg', d.bgColor);
-    p.style.setProperty('--preview-card-bg', d.cardBg);
-    p.style.setProperty('--preview-radius', d.radius + 'px');
-    p.style.setProperty('--preview-shadow', '0 8px 32px rgba(0,0,0,.' + (d.shadowOpacity * 0.03).toFixed(3) + ')');
-    p.style.setProperty('--preview-font', "var(--font)");
-    p.style.setProperty('--preview-text', d.textSize + 'px');
-    // Обновляем линии скелетона под акцентный цвет
-    var lines = p.querySelectorAll('.preview-card-line');
-    lines.forEach(function(line){
-        line.style.background = d.accentColor + '22';
-    });
-}
+                <section class="panel">
 
-// === НАСТРОЙКИ ===
-function renderSettings(el){
-    var s = DATA.settings;
-    var t = curLang === 'ru';
-    el.innerHTML = '<div style="max-width:600px"><div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)">' +
-        fg(t ? 'Название проекта' : 'Project name', '<input class="form-input" value="' + s.projectName + '" oninput="DATA.settings.projectName=this.value">') +
-        fg(t ? 'Описание' : 'Description', '<textarea class="form-textarea" oninput="DATA.settings.description=this.value">' + s.description + '</textarea>') +
-        fg(t ? 'Язык' : 'Language', '<select class="form-select" onchange="DATA.settings.lang=this.value"><option value="ru"' + (s.lang === 'ru' ? ' selected' : '') + '>Русский</option><option value="en"' + (s.lang === 'en' ? ' selected' : '') + '>English</option><option value="kz"' + (s.lang === 'kz' ? ' selected' : '') + '>Қазақша</option></select>') +
-        fg(t ? 'Формат даты' : 'Date format', '<select class="form-select" onchange="DATA.settings.dateFormat=this.value"><option value="DD.MM.YYYY"' + (s.dateFormat === 'DD.MM.YYYY' ? ' selected' : '') + '>DD.MM.YYYY</option><option value="MM/DD/YYYY"' + (s.dateFormat === 'MM/DD/YYYY' ? ' selected' : '') + '>MM/DD/YYYY</option><option value="YYYY-MM-DD"' + (s.dateFormat === 'YYYY-MM-DD' ? ' selected' : '') + '>YYYY-MM-DD</option></select>') +
-        fg(t ? 'Формат времени' : 'Time format', '<select class="form-select" onchange="DATA.settings.timeFormat=this.value"><option value="24h"' + (s.timeFormat === '24h' ? ' selected' : '') + '>24 часа</option><option value="12h"' + (s.timeFormat === '12h' ? ' selected' : '') + '>12 часов</option></select>') +
-        '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="form-label" style="margin:0">' + (t ? 'Уведомления' : 'Notifications') + '</label>' +
-        '<div class="toggle-sw' + (s.notifications ? ' on' : '') + '" onclick="this.classList.toggle(\'on\');DATA.settings.notifications=this.classList.contains(\'on\')"></div></div>' +
-    '</div></div>';
-}
+                    <div class="panel-header">
 
-// === УДАЛЕНИЕ ===
-function deleteItem(collection, id){
-    var t = curLang === 'ru';
-    DATA[collection] = DATA[collection].filter(function(x){ return x.id !== id; });
-    renderSection(curSection);
-    toast('success', t ? 'Удалено' : 'Deleted');
-}
+                        <h3>Последние события</h3>
 
-// === МОДАЛКИ ===
-function openModal(html){
-    document.getElementById('modalBox').innerHTML = html;
-    document.getElementById('modalOv').classList.add('open');
-}
+                        <button class="btn">
+                            Все
+                        </button>
 
-function closeModal(){
-    document.getElementById('modalOv').classList.remove('open');
-}
+                    </div>
 
-document.getElementById('modalOv').addEventListener('click', function(e){
-    if(e.target === this) closeModal();
-});
-document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeModal();
-});
+                    <div class="activity-list">
 
-function modalHead(title){
-    return '<div class="modal-head"><div class="modal-title">' + title + '</div><button class="modal-x" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button></div>';
-}
+                        <div class="activity">
 
-function modalFoot(saveFn){
-    var t = curLang === 'ru';
-    return '<div class="modal-foot"><button class="btn-modal ghost" onclick="closeModal()">' + (t ? 'Отмена' : 'Cancel') + '</button><button class="btn-modal primary" onclick="' + saveFn + '">' + (t ? 'Сохранить' : 'Save') + '</button></div>';
-}
+                            <div class="activity-icon">👨‍🎓</div>
 
-// === Модалка: Расписание ===
-function openScheduleModal(id){
-    var t = curLang === 'ru';
-    var l = id ? DATA.schedule.find(function(x){ return x.id === id; }) :
-        { day: scheduleFilterDay, num: DATA.schedule.filter(function(x){ return x.day === scheduleFilterDay; }).length + 1, time: '', name: '', teacher: '', room: '' };
-    openModal(modalHead(id ? (t ? 'Изменить урок' : 'Edit lesson') : (t ? 'Добавить урок' : 'Add lesson')) +
-        '<div class="modal-body">' +
-        fg(t ? 'День недели' : 'Day', '<select class="form-select" id="mDay">' + DAYS.map(function(d, i){ return '<option value="' + i + '"' + (l.day === i ? ' selected' : '') + '>' + d[curLang] + '</option>'; }).join('') + '</select>') +
-        fg(t ? 'Номер урока' : 'Lesson #', '<input class="form-input" type="number" id="mNum" value="' + l.num + '" min="1" max="10">') +
-        fg(t ? 'Время' : 'Time', '<input class="form-input" id="mTime" value="' + l.time + '" placeholder="08:30 – 09:15">') +
-        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mName" value="' + l.name + '">') +
-        fg(t ? 'Учитель' : 'Teacher', '<input class="form-input" id="mTeacher" value="' + l.teacher + '">') +
-        fg(t ? 'Кабинет' : 'Room', '<input class="form-input" id="mRoom" value="' + l.room + '">') +
-        '</div>' + modalFoot('saveSchedule(' + id + ')'));
-}
+                            <div class="activity-info">
 
-function saveSchedule(id){
-    var t = curLang === 'ru';
-    var obj = {
-        day: +document.getElementById('mDay').value,
-        num: +document.getElementById('mNum').value,
-        time: document.getElementById('mTime').value,
-        name: document.getElementById('mName').value,
-        teacher: document.getElementById('mTeacher').value,
-        room: document.getElementById('mRoom').value
-    };
-    if(!obj.name || !obj.time){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
-    if(id){
-        var l = DATA.schedule.find(function(x){ return x.id === id; });
-        if(l) Object.assign(l, obj);
-    } else {
-        obj.id = ++nextId;
-        DATA.schedule.push(obj);
-    }
-    closeModal();
-    renderSection('schedule');
-    toast('success', t ? 'Сохранено' : 'Saved');
-}
+                                <h4>Добавлен новый ученик</h4>
 
-// === Модалка: ДЗ ===
-function openHwModal(id){
-    var t = curLang === 'ru';
-    var h = id ? DATA.homework.find(function(x){ return x.id === id; }) : { subject: '', desc: '', date: '' };
-    openModal(modalHead(id ? (t ? 'Изменить задание' : 'Edit assignment') : (t ? 'Добавить задание' : 'Add assignment')) +
-        '<div class="modal-body">' +
-        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mSubject" value="' + h.subject + '">') +
-        fg(t ? 'Описание' : 'Description', '<textarea class="form-textarea" id="mDesc">' + h.desc + '</textarea>') +
-        fg(t ? 'Дата' : 'Date', '<input class="form-input" id="mDate" value="' + h.date + '" placeholder="DD.MM.YYYY">') +
-        '<div class="form-group"><label class="form-label">' + (t ? 'Файл' : 'File') + '</label>' +
-        '<button class="btn-secondary" style="font-size:13px" onclick="toast(\'info\',\'' + (t ? 'Файл выбран' : 'File selected') + '\')"><i class="fa-solid fa-paperclip"></i> ' + (t ? 'Прикрепить файл' : 'Attach file') + '</button></div>' +
-        '</div>' + modalFoot('saveHw(' + id + ')'));
-}
+                                <p>5 "А" класс</p>
 
-function saveHw(id){
-    var t = curLang === 'ru';
-    var obj = {
-        subject: document.getElementById('mSubject').value,
-        desc: document.getElementById('mDesc').value,
-        date: document.getElementById('mDate').value
-    };
-    if(!obj.subject || !obj.date){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
-    if(id){
-        var h = DATA.homework.find(function(x){ return x.id === id; });
-        if(h) Object.assign(h, obj);
-    } else {
-        obj.id = ++nextId;
-        DATA.homework.push(obj);
-    }
-    closeModal();
-    renderSection('homework');
-    toast('success', t ? 'Сохранено' : 'Saved');
-}
+                            </div>
 
-// === Модалка: Дневник ===
-function openDiaryModal(id){
-    var t = curLang === 'ru';
-    var d = id ? DATA.diary.find(function(x){ return x.id === id; }) :
-        { date: '', subject: '', hw: '', attendance: t ? 'присутствовал' : 'present', comment: '' };
-    openModal(modalHead(id ? (t ? 'Изменить запись' : 'Edit entry') : (t ? 'Добавить запись' : 'Add entry')) +
-        '<div class="modal-body">' +
-        fg(t ? 'Дата' : 'Date', '<input class="form-input" id="mDate" value="' + d.date + '" placeholder="DD.MM.YYYY">') +
-        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mSubject" value="' + d.subject + '">') +
-        fg(t ? 'Домашнее задание' : 'Homework', '<input class="form-input" id="mHw" value="' + d.hw + '">') +
-        fg(t ? 'Посещаемость' : 'Attendance', '<input class="form-input" id="mAttend" value="' + d.attendance + '">') +
-        fg(t ? 'Комментарий' : 'Comment', '<input class="form-input" id="mComment" value="' + d.comment + '" placeholder="' + (t ? 'Необязательно' : 'Optional') + '">') +
-        '</div>' + modalFoot('saveDiary(' + id + ')'));
-}
+                            <span>Сегодня</span>
 
-function saveDiary(id){
-    var t = curLang === 'ru';
-    var obj = {
-        date: document.getElementById('mDate').value,
-        subject: document.getElementById('mSubject').value,
-        hw: document.getElementById('mHw').value,
-        attendance: document.getElementById('mAttend').value,
-        comment: document.getElementById('mComment').value
-    };
-    if(!obj.subject || !obj.date){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
-    if(id){
-        var d = DATA.diary.find(function(x){ return x.id === id; });
-        if(d) Object.assign(d, obj);
-    } else {
-        obj.id = ++nextId;
-        DATA.diary.push(obj);
-    }
-    closeModal();
-    renderSection('diary');
-    toast('success', t ? 'Сохранено' : 'Saved');
-}
+                        </div>
 
-// === Модалка: Оценки (ИСПРАВЛЕНА — была обрезана) ===
-function openGradeModal(id){
-    var t = curLang === 'ru';
-    var g = id ? DATA.grades.find(function(x){ return x.id === id; }) : { student: '', subject: '', grade: 5, comment: '' };
-    openModal(modalHead(id ? (t ? 'Изменить оценку' : 'Edit grade') : (t ? 'Добавить оценку' : 'Add grade')) +
-        '<div class="modal-body">' +
-        fg(t ? 'Ученик' : 'Student', '<input class="form-input" id="mStudent" value="' + g.student + '">') +
-        fg(t ? 'Предмет' : 'Subject', '<input class="form-input" id="mSubject" value="' + g.subject + '">') +
-        fg(t ? 'Оценка' : 'Grade', '<select class="form-select" id="mGrade">' +
-            '<option value="5"' + (g.grade === 5 ? ' selected' : '') + '>5</option>' +
-            '<option value="4"' + (g.grade === 4 ? ' selected' : '') + '>4</option>' +
-            '<option value="3"' + (g.grade === 3 ? ' selected' : '') + '>3</option>' +
-            '<option value="2"' + (g.grade === 2 ? ' selected' : '') + '>2</option></select>') +
-        fg(t ? 'Комментарий' : 'Comment', '<input class="form-input" id="mComment" value="' + g.comment + '" placeholder="' + (t ? 'Необязательно' : 'Optional') + '">') +
-        '</div>' + modalFoot('saveGrade(' + id + ')'));
-}
+                        <div class="activity">
 
-function saveGrade(id){
-    var t = curLang === 'ru';
-    var obj = {
-        student: document.getElementById('mStudent').value,
-        subject: document.getElementById('mSubject').value,
-        grade: +document.getElementById('mGrade').value,
-        comment: document.getElementById('mComment').value
-    };
-    if(!obj.student || !obj.subject){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
-    if(id){
-        var g = DATA.grades.find(function(x){ return x.id === id; });
-        if(g) Object.assign(g, obj);
-    } else {
-        obj.id = ++nextId;
-        DATA.grades.push(obj);
-    }
-    closeModal();
-    renderSection('grades');
-    toast('success', t ? 'Сохранено' : 'Saved');
-}
+                            <div class="activity-icon">📚</div>
 
-// === Модалка: Новости (ДОБАВЛЕНА — отсутствовала) ===
-function openNewsModal(id){
-    var t = curLang === 'ru';
-    var n = id ? DATA.news.find(function(x){ return x.id === id; }) : { title: '', text: '', date: '', pinned: false };
-    openModal(modalHead(id ? (t ? 'Изменить новость' : 'Edit news') : (t ? 'Добавить новость' : 'Add news')) +
-        '<div class="modal-body">' +
-        fg(t ? 'Заголовок' : 'Title', '<input class="form-input" id="mTitle" value="' + n.title + '">') +
-        fg(t ? 'Текст' : 'Text', '<textarea class="form-textarea" id="mText">' + n.text + '</textarea>') +
-        fg(t ? 'Дата' : 'Date', '<input class="form-input" id="mDate" value="' + n.date + '" placeholder="DD.MM.YYYY">') +
-        '<div class="form-group" style="display:flex;align-items:center;justify-content:space-between"><label class="form-label" style="margin:0">' + (t ? 'Закрепить' : 'Pin') + '</label>' +
-        '<div class="toggle-sw' + (n.pinned ? ' on' : '') + '" id="mPinned" onclick="this.classList.toggle(\'on\')"></div></div>' +
-        '</div>' + modalFoot('saveNews(' + id + ')'));
-}
+                            <div class="activity-info">
 
-function saveNews(id){
-    var t = curLang === 'ru';
-    var obj = {
-        title: document.getElementById('mTitle').value,
-        text: document.getElementById('mText').value,
-        date: document.getElementById('mDate').value,
-        pinned: document.getElementById('mPinned').classList.contains('on')
-    };
-    if(!obj.title || !obj.date){ toast('error', t ? 'Заполните все поля' : 'Fill all fields'); return; }
-    if(id){
-        var n = DATA.news.find(function(x){ return x.id === id; });
-        if(n) Object.assign(n, obj);
-    } else {
-        obj.id = ++nextId;
-        DATA.news.push(obj);
-    }
-    closeModal();
-    renderSection('news');
-    toast('success', t ? 'Сохранено' : 'Saved');
-}
+                                <h4>Обновлено расписание</h4>
 
-// === Модалка: Пользователи (ДОБАВЛЕНА — отсутствовала) ===
-function openUserModal(id){
-    var t = curLang === 'ru';
-    var u = id ? DATA.users.find(function(x){ return x.id === id; }) : { name: '', login: '', password: '', class: '', avatar: '' };
-    openModal(modalHead(id ? (t ? 'Изменить пользователя' : 'Edit user') : (t ? 'Добавить пользователя' : 'Add user')) +
-        '<div class="modal-body">' +
-        fg(t ? 'Имя' : 'Name', '<input class="form-input" id="mName" value="' + u.name + '" oninput="generateAvatar()">') +
-        fg(t ? 'Логин (email)' : 'Login (email)', '<input class="form-input" id="mLogin" value="' + u.login + '">') +
-        fg(t ? 'Пароль' : 'Password', '<input class="form-input" id="mPass" value="' + u.password + '" type="text">') +
-        fg(t ? 'Класс' : 'Class', '<input class="form-input" id="mClass" value="' + u.class + '" placeholder="8А">') +
-        fg(t ? 'Аватар (инициалы)' : 'Avatar (initials)', '<input class="form-input" id="mAvatar" value="' + u.avatar + '" maxlength="3">') +
-        '</div>' + modalFoot('saveUser(' + id + ')'));
-}
+                                <p>На понедельник</p>
 
-function generateAvatar(){
-    var name = document.getElementById('mName').value.trim();
-    if(!name) return;
-    var parts = name.split(/\s+/);
-    var initials = parts.length >= 2 ?
-        (parts[0][0] + parts[1][0]).toUpperCase() :
-        name.substring(0, 2).toUpperCase();
-    document.getElementById('mAvatar').value = initials;
-}
+                            </div>
 
-function saveUser(id){
-    var t = curLang === 'ru';
-    var obj = {
-        name: document.getElementById('mName').value,
-        login: document.getElementById('mLogin').value,
-        password: document.getElementById('mPass').value,
-        class: document.getElementById('mClass').value,
-        avatar: document.getElementById('mAvatar').value || '??'
-    };
-    if(!obj.name || !obj.login){ toast('error', t ? 'Заполните имя и логин' : 'Fill name and login'); return; }
-    if(id){
-        var u = DATA.users.find(function(x){ return x.id === id; });
-        if(u) Object.assign(u, obj);
-    } else {
-        obj.id = ++nextId;
-        DATA.users.push(obj);
-    }
-    closeModal();
-    renderSection('users');
-    toast('success', t ? 'Сохранено' : 'Saved');
-}
+                            <span>10:30</span>
 
-// === Тосты ===
-function toast(type, msg){
-    var wrap = document.getElementById('toastWrap');
-    var t = document.createElement('div');
-    var iconMap = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
-    t.className = 'toast toast-' + type;
-    t.innerHTML = '<i class="fa-solid ' + (iconMap[type] || iconMap.info) + ' toast-icon"></i><span>' + msg + '</span>';
-    wrap.appendChild(t);
-    setTimeout(function(){
-        t.classList.add('out');
-        setTimeout(function(){ t.remove(); }, 300);
-    }, 2800);
-}
+                        </div>
 
-// === Первоначальный рендер ===
-renderSection('home');
-</script>
+                        <div class="activity">
+
+                            <div class="activity-icon">📝</div>
+
+                            <div class="activity-info">
+
+                                <h4>Добавлены оценки</h4>
+
+                                <p>Математика</p>
+
+                            </div>
+
+                            <span>09:15</span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>Быстрые действия</h3>
+
+                    </div>
+
+                    <div class="quick-grid">
+
+                        <button class="quick-btn" id="addStudent">
+                            ➕<br>
+                            Добавить ученика
+                        </button>
+
+                        <button class="quick-btn" id="addTeacher">
+                            ➕<br>
+                            Добавить учителя
+                        </button>
+
+                        <button class="quick-btn" id="addClass">
+                            🏫<br>
+                            Новый класс
+                        </button>
+
+                        <button class="quick-btn" id="createSchedule">
+                            📅<br>
+                            Расписание
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <h3>Ученики</h3>
+
+                    <button class="btn">
+                        Добавить
+                    </button>
+
+                </div>
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>ФИО</th>
+                            <th>Класс</th>
+                            <th>Возраст</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="studentsTable">
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <h3>Учителя</h3>
+
+                    <button class="btn">
+                        Добавить
+                    </button>
+
+                </div>
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>ФИО</th>
+                            <th>Предмет</th>
+                            <th>Кабинет</th>
+                            <th>Действия</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="teachersTable">
+
+                    </tbody>
+
+                </table>
+
+            </section>
+                </div>
+            </section>
+
+            <!-- Новости -->
+            <section class="news-section">
+                <div class="section-header">
+                    <h2>Новости школы</h2>
+                    <a href="#" class="view-all">Все новости</a>
+                </div>
+
+                <div class="news-grid">
+
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="" alt="">
+                        </div>
+
+                        <div class="news-content">
+                            <span class="news-date">Дата</span>
+
+                            <h3>Заголовок новости</h3>
+
+                            <p>
+                                Краткое описание новости...
+                            </p>
+
+                            <a href="#">Подробнее</a>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="" alt="">
+                        </div>
+
+                        <div class="news-content">
+                            <span class="news-date">Дата</span>
+
+                            <h3>Заголовок новости</h3>
+
+                            <p>
+                                Краткое описание новости...
+                            </p>
+
+                            <a href="#">Подробнее</a>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="" alt="">
+                        </div>
+
+                        <div class="news-content">
+                            <span class="news-date">Дата</span>
+
+                            <h3>Заголовок новости</h3>
+
+                            <p>
+                                Краткое описание новости...
+                            </p>
+
+                            <a href="#">Подробнее</a>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- Домашнее задание -->
+            <section class="homework-section">
+
+                <div class="section-header">
+                    <h2>Домашнее задание</h2>
+                </div>
+
+                <div class="homework-list">
+
+                    <div class="homework-card">
+                        <div class="lesson-name">
+                            Математика
+                        </div>
+
+                        <div class="lesson-task">
+                            Домашнее задание...
+                        </div>
+
+                        <div class="lesson-deadline">
+                            Сдать до: --
+                        </div>
+                    </div>
+
+                    <div class="homework-card">
+                        <div class="lesson-name">
+                            Русский язык
+                        </div>
+
+                        <div class="lesson-task">
+                            Домашнее задание...
+                        </div>
+
+                        <div class="lesson-deadline">
+                            Сдать до: --
+                        </div>
+                    </div>
+
+                    <div class="homework-card">
+                        <div class="lesson-name">
+                            История
+                        </div>
+
+                        <div class="lesson-task">
+                            Домашнее задание...
+                        </div>
+
+                        <div class="lesson-deadline">
+                            Сдать до: --
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+            <!-- Сообщения -->
+            <section class="messages-section">
+
+                <div class="section-header">
+                    <h2>Сообщения</h2>
+
+                    <a href="#" class="view-all">
+                        Все сообщения
+                    </a>
+                </div>
+
+                <div class="messages-list">
+
+                    <div class="message-card unread">
+
+                        <div class="message-avatar">
+                            <img src="" alt="">
+                        </div>
+
+                        <div class="message-info">
+
+                            <div class="message-top">
+                                <h3>Имя отправителя</h3>
+                                <span>12:30</span>
+                            </div>
+
+                            <p>
+                                Текст сообщения...
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="message-card">
+
+                        <div class="message-avatar">
+                            <img src="" alt="">
+                        </div>
+
+                        <div class="message-info">
+
+                            <div class="message-top">
+                                <h3>Имя отправителя</h3>
+                                <span>Вчера</span>
+                            </div>
+
+                            <p>
+                                Текст сообщения...
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Оценки -->
+            <section class="grades-section">
+
+                <div class="section-header">
+                    <h2>Последние оценки</h2>
+
+                    <a href="#" class="view-all">
+                        Все оценки
+                    </a>
+                </div>
+
+                <div class="grades-grid">
+
+                    <div class="grade-card">
+                        <div class="grade-subject">
+                            Математика
+                        </div>
+
+                        <div class="grade-value">
+                            5
+                        </div>
+
+                        <div class="grade-date">
+                            Сегодня
+                        </div>
+                    </div>
+
+                    <div class="grade-card">
+                        <div class="grade-subject">
+                            История
+                        </div>
+
+                        <div class="grade-value">
+                            4
+                        </div>
+
+                        <div class="grade-date">
+                            Вчера
+                        </div>
+                    </div>
+
+                    <div class="grade-card">
+                        <div class="grade-subject">
+                            Английский язык
+                        </div>
+
+                        <div class="grade-value">
+                            5
+                        </div>
+
+                        <div class="grade-date">
+                            02.09
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Документы -->
+            <section class="documents-section">
+
+                <div class="section-header">
+                    <h2>Документы</h2>
+
+                    <a href="#" class="view-all">
+                        Все документы
+                    </a>
+                </div>
+
+                <div class="documents-list">
+
+                    <div class="document-card">
+                        <div class="document-icon"></div>
+
+                        <div class="document-info">
+                            <h3>Название документа</h3>
+                            <span>PDF • 1.2 MB</span>
+                        </div>
+
+                        <button class="document-download">
+                            Скачать
+                        </button>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="document-icon"></div>
+
+                        <div class="document-info">
+                            <h3>Название документа</h3>
+                            <span>DOCX • 540 KB</span>
+                        </div>
+
+                        <button class="document-download">
+                            Скачать
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+            <!-- Профиль -->
+            <section class="profile-section">
+
+                <div class="section-header">
+                    <h2>Профиль</h2>
+                </div>
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+                        <img src="" alt="Аватар">
+                    </div>
+
+                    <div class="profile-info">
+
+                        <h2>Имя Фамилия</h2>
+
+                        <p>Ученик</p>
+
+                        <div class="profile-data">
+
+                            <div class="profile-item">
+                                <span class="label">Класс</span>
+                                <span class="value">--</span>
+                            </div>
+
+                            <div class="profile-item">
+                                <span class="label">Школа</span>
+                                <span class="value">Название школы</span>
+                            </div>
+
+                            <div class="profile-item">
+                                <span class="label">Логин</span>
+                                <span class="value">user123</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Настройки -->
+            <section class="settings-section">
+
+                <div class="section-header">
+                    <h2>Настройки</h2>
+                </div>
+
+                <div class="settings-list">
+
+                    <a href="#" class="settings-item">
+                        <span>Личные данные</span>
+                    </a>
+
+                    <a href="#" class="settings-item">
+                        <span>Безопасность</span>
+                    </a>
+
+                    <a href="#" class="settings-item">
+                        <span>Уведомления</span>
+                    </a>
+
+                    <a href="#" class="settings-item">
+                        <span>Тема оформления</span>
+                    </a>
+
+                    <a href="#" class="settings-item">
+                        <span>Помощь</span>
+                    </a>
+
+                    <a href="#" class="settings-item logout">
+                        <span>Выйти из аккаунта</span>
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- Подвал -->
+        <footer class="footer">
+
+            <div class="footer-logo">
+                NovaClass
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#">О системе</a>
+
+                <a href="#">Поддержка</a>
+
+                <a href="#">Политика конфиденциальности</a>
+
+                <a href="#">Пользовательское соглашение</a>
+
+            </div>
+
+            <div class="footer-copy">
+                © 2026 NovaClass. Все права защищены.
+            </div>
+
+        </footer>
+
+    </div>
+
+<script src="main.js"></script>
+
 </body>
 </html>
